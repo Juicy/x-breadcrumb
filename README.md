@@ -23,14 +23,14 @@ Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/polymer_1.0.z
 1. Import Web Components' polyfill:
 
     ```html
-    <script src=&quot;bower_components/webcomponentsjs/webcomponents.js&quot;></script>
+    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
     ```
 
 2. Import Custom Element:
 
     ```html
-    <link rel=&quot;import&quot; href=&quot;bower_components/x-breadcrumb/x-breadcrumb.html&quot;>
-    <link rel=&quot;import&quot; href=&quot;bower_components/x-breadcrumb/x-crumb.html&quot;>
+    <link rel="import" href="bower_components/x-breadcrumb/x-breadcrumb.html">
+    <link rel="import" href="bower_components/x-breadcrumb/x-crumb.html">
     ```
 
 3. Start using it!

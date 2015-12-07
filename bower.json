@@ -1,0 +1,33 @@
+{
+  "name": "x-breadcrumb",
+  "version": "1.0.0",
+  "homepage": "https://github.com/Juicy/x-breadcrumb",
+  "authors": [
+    "andwah <saurshaz@gmail.com>",
+    "Saurabh Sharma <saurshaz@gmail.com>"
+  ],
+  "description": "Polymer Element with Breadcrumbs builder",
+  "keywords": [
+    "polymer",
+    "web-components",
+    "juicy",
+    "breadcrumb"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "Gruntfile.js",
+    "tests",
+    "index.html",
+    "preview.png"
+  ],
+  "dependencies": {
+    "polymer": "polymer/polymer#^1.2.0"
+  },
+  "resolutions": {
+    "polymer": "^1.2.0",
+    "webcomponentsjs": "^0.7.18"
+  }
+}

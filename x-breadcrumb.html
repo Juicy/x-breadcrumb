@@ -1,0 +1,41 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+
+<dom-module id="x-breadcrumb">
+  <template>
+    <style>
+    :host {
+      display: block;
+      background: #efefef;
+      font-family: lato;
+      text-align: center;
+      margin-top: 3em;
+    }
+    </style>
+    <div>
+      <div class="wrapper">
+        <ul class="breadcrumbs">
+          <content></content>
+        </ul>
+      </div>
+    </div>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'x-breadcrumb',
+
+      properties: {
+
+      },
+      attached: function() {
+
+      },
+      value: function() {
+
+      }
+    });
+  })();
+  </script>
+</dom-module>

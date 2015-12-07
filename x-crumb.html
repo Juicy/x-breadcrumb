@@ -1,0 +1,250 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<dom-module id="x-crumb">
+  <template>
+    <style>
+    :host {
+      /*display: block;*/
+    }
+
+    .button {
+      border: 1px solid #3d5b92;
+      background: #4d72b5;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      font-weight: bold;
+      padding: 0.3em .75em 0.4em;
+      line-height: 1;
+      -moz-border-radius: 2px;
+      -webkit-border-radius: 2px;
+      border-radius: 2px;
+      text-decoration: none;
+      -moz-transition-property: background-color;
+      -o-transition-property: background-color;
+      -webkit-transition-property: background-color;
+      transition-property: background-color;
+      -moz-transition-duration: 350ms;
+      -o-transition-duration: 350ms;
+      -webkit-transition-duration: 350ms;
+      transition-duration: 350ms;
+      -moz-transition-timing-function: ease-in-out;
+      -o-transition-timing-function: ease-in-out;
+      -webkit-transition-timing-function: ease-in-out;
+      transition-timing-function: ease-in-out;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .button:hover {
+      background: #4566a4;
+      text-decoration: none;
+    }
+
+    .btn-large {
+      padding: 1em;
+      text-align: center;
+    }
+
+    .btn-create:before {
+      content: "+";
+      padding-right: .5em;
+      font-weight: bold;
+    }
+
+    .btn-create.btn-large {
+      position: relative;
+      padding-left: 3em;
+      padding-right: 1.5em;
+    }
+
+    .btn-create.btn-large:before {
+      content: "+";
+      font-size: 2em;
+      position: absolute;
+      left: 16px;
+      left: 1rem;
+      top: 6.4px;
+      top: 0.4rem;
+    }
+
+    .button-dropdown {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 15px;
+    }
+
+    .button-dropdown .btn-create {
+      -moz-border-radius: 3px 0 0 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .button-dropdown .more.toggle {
+      text-indent: 100%;
+      overflow: hidden;
+      display: inline-block;
+      width: 33px;
+      padding: 1em .3em;
+      vertical-align: bottom;
+      margin-left: -3px;
+      -moz-border-radius: 0 3px 3px 0;
+      -webkit-border-radius: 0;
+      border-radius: 0 3px 3px 0;
+      border-left: 0;
+      position: relative;
+    }
+
+    .button-dropdown .more.toggle:after {
+      content: '';
+      position: absolute;
+      top: 1.4em;
+      left: 16px;
+      width: 0;
+      height: 0;
+      border: 6px solid transparent;
+      border-top-color: #fff;
+    }
+
+    .button-dropdown .dropdown {
+      display: none;
+      position: absolute;
+      top: 70%;
+      left: 0;
+      right: 0;
+      border-radius: 2px;
+      list-style-type: none;
+      padding: 0;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      width: 150px;
+    }
+
+    .button-dropdown .dropdown li:first-child .dropdown-link {
+      -moz-border-radius: 3px 3px 0 0;
+      -webkit-border-radius: 3px;
+      border-radius: 3px 3px 0 0;
+    }
+
+    .button-dropdown .dropdown li:first-child .dropdown-link:before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      right: 13px;
+      width: 0;
+      height: 0;
+      border: 6px outset transparent;
+      border-bottom: 6px solid #e4eaf4;
+    }
+
+    .button-dropdown .dropdown li:last-child .dropdown-link {
+      -moz-border-radius: 0 0 3px 3px;
+      -webkit-border-radius: 0;
+      border-radius: 0 0 3px 3px;
+      border: 0;
+    }
+
+    .button-dropdown .dropdown .dropdown-link {
+      display: block;
+      position: relative;
+      padding: .75em 1em;
+      background: #e4eaf4;
+      color: #333;
+      text-decoration: none;
+      border-bottom: 1px solid #d2dcec;
+    }
+
+    .button-dropdown .dropdown .dropdown-link:hover {
+      background: #d2dcec;
+    }
+
+    .button-dropdown li:first-child > .dropdown-link:hover:before {
+      border-bottom-color: #d2dcec;
+    }
+
+    .dropdown:hover {
+      display: block;
+    }
+
+    .button-dropdown:hover > .dropdown,
+    .button-dropdown.open > .dropdown {
+      display: block;
+    }
+    </style>
+    <span class="button-dropdown">
+      <span href="#" class="button btn-large">{{value}}</span>
+      <datalist id="{{datalistid}}" autocomplete="on">
+        <option label="one" value="one"></option>
+        <option label="one" value="once"></option>
+        <option  label="one" value="one of"></option>
+      </datalist>
+      <template is="dom-if" if="{{dropdown}}">
+        <a class="more button toggle">More</a>
+        <ul class="dropdown">
+          <input  list$="[[datalistid]]" class="dropdown-link" value="[[value:input]]" on-input="setVal">
+        </ul>
+      </template>
+      <template is="dom-if" if="{{add}}">
+        <span href="#" class="button btn-create" style="padding: 16px;"></span>
+      </template>
+    </span>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'x-crumb',
+
+      properties: {
+        value: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        alloptions: {
+          type: JSON,
+          value: [],
+          notify: true
+        },
+        dropdown: {
+          type: Boolean,
+          value: true,
+          notify: true
+        },
+        add: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+        dataListId: {
+          type: String,
+          value: '',
+          notify: true
+        }
+      },
+      setVal: function(e){
+        if(this.alloptions.indexOf(e.target.value) > -1){
+          console.log(e);
+          this.value = e.target.value;
+        }
+        // debugger;
+      },
+      attached: function() {
+        var innerHtmlOptions = '';
+        // debugger;
+        if(this.getAttribute('alloptions'))
+          this.alloptions = JSON.parse(this.getAttribute('alloptions'));
+        for (var i = this.alloptions.length - 1; i >= 0; i--) {
+          innerHtmlOptions += '<option label="'+this.alloptions[i]+'" value="'+this.alloptions[i]+'"></option> ';
+        };
+
+        if(innerHtmlOptions)
+          this.querySelector('#'+this.datalistid).innerHTML = innerHtmlOptions;
+      },
+      value: function() {
+        // return this.querySelector('yolap-view-tags').tags;
+      }
+    });
+  })();
+  </script>
+</dom-module>

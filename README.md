@@ -37,9 +37,32 @@ Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/polymer_1.0.z
 
     ```html
     <x-breadcrumb>
-      <x-crumb value="Food" dropdown="true" alloptions=["Food","Clothing","Housing"] dataListId="firstLevelOptions"></x-crumb>
-      <x-crumb value="Beverage" dropdown="true" alloptions=["Food","Clothing","Housing"] dataListId="secondLevelOptions"></x-crumb>
-      <x-crumb value="Coke" dropdown="true" alloptions=["Food","Food1","Food2","Food3","Food4","Clothing","Housing"] dataListId="thirdLevelOptions" add="true"></x-crumb>
+      <x-crumb value="Food" dropdown="true" listid="zeroLevelOptions">
+        <ul>
+          <li onclick="console.log('Food selected')">Food</li>
+          <li onclick="console.log('Clothing selected')">Clothing</li>
+          <li onclick="console.log('Housing selected')">Housing</li>
+        </ul>
+      </x-crumb>
+      <x-crumb value="Flyte" dropdown="true" listid="firstLevelOptions">
+         <ul>
+          <li onclick="console.log('Food selected')">Food</li>
+          <li onclick="console.log('Clothing selected')">Clothing</li>
+          <li onclick="console.log('Housing selected')">Housing</li>
+        </ul>
+      </x-crumb>
+      <x-crumb value="Beverage" dropdown="true" listid="secondLevelOptions">
+       <ul>
+          <li onclick="console.log('Food selected')">Food</li>
+          <li onclick="console.log('Clothing selected')">Clothing</li>
+          <li onclick="console.log('Housing selected')">Housing</li>
+        </ul></x-crumb>
+      <x-crumb value="Coke" dropdown="true" listid="thirdLevelOptions" add="true">
+       <ul>
+          <li onclick="console.log('Food selected')">Food</li>
+          <li onclick="console.log('Clothing selected')">Clothing</li>
+          <li onclick="console.log('Housing selected')">Housing</li>
+        </ul></x-crumb>
     </x-breadcrumb>
     ```
 

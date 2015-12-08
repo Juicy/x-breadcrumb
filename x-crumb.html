@@ -172,7 +172,7 @@
     </style>
     <span class="button-dropdown">
       <span href="#" class="button btn-large">{{value}}</span>
-      <datalist id="{{datalistid}}" autocomplete="on">
+      <datalist id="{{listid}}" autocomplete="on">
         <option label="one" value="one"></option>
         <option label="one" value="once"></option>
         <option  label="one" value="one of"></option>
@@ -180,7 +180,7 @@
       <template is="dom-if" if="{{dropdown}}">
         <a class="more button toggle">More</a>
         <ul class="dropdown">
-          <input  list$="[[datalistid]]" class="dropdown-link" value="[[value:input]]" on-input="setVal">
+          <input  list$="{{listid}}" class="dropdown-link" value="[[value:input]]" on-input="setVal">
         </ul>
       </template>
       <template is="dom-if" if="{{add}}">
@@ -196,19 +196,14 @@
       is: 'x-crumb',
 
       properties: {
-        value: {
-          type: String,
-          value: '',
-          notify: true
-        },
-        alloptions: {
-          type: JSON,
-          value: [],
-          notify: true
-        },
         dropdown: {
           type: Boolean,
           value: true,
+          notify: true
+        },
+        alloptions: {
+          type: Array,
+          value: [],
           notify: true
         },
         add: {
@@ -216,7 +211,7 @@
           value: false,
           notify: true
         },
-        dataListId: {
+        listId: {
           type: String,
           value: '',
           notify: true
@@ -227,22 +222,24 @@
           console.log(e);
           this.value = e.target.value;
         }
-        // debugger;
       },
       attached: function() {
         var innerHtmlOptions = '';
-        // debugger;
-        if(this.getAttribute('alloptions'))
-          this.alloptions = JSON.parse(this.getAttribute('alloptions'));
-        for (var i = this.alloptions.length - 1; i >= 0; i--) {
-          innerHtmlOptions += '<option label="'+this.alloptions[i]+'" value="'+this.alloptions[i]+'"></option> ';
-        };
+
+        if(this.getEffectiveChildren()){
+          var alloptionsLi = this.getEffectiveChildren()[0].querySelectorAll('li');
+          this.alloptions = this.alloptions || [];
+          for (var i = alloptionsLi.length - 1; i >= 0; i--) {
+            this.alloptions.push(alloptionsLi[i].innerHTML); 
+            innerHtmlOptions += '<option label="'+alloptionsLi[i].innerHTML+'" value="'+alloptionsLi[i].innerHTML+'"></option> ';
+          };
+        }
+
 
         if(innerHtmlOptions)
-          this.querySelector('#'+this.datalistid).innerHTML = innerHtmlOptions;
+          this.querySelector('#'+this.listid).innerHTML = innerHtmlOptions;
       },
       value: function() {
-        // return this.querySelector('yolap-view-tags').tags;
       }
     });
   })();

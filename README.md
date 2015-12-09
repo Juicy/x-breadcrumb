@@ -36,42 +36,43 @@ Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/polymer_1.0.z
 3. Start using it!
 
     ```html
-    <x-breadcrumb>
+    <x-breadcrumb orientation='vertical'>
       <x-crumb value="Food" dropdown="true" listid="zeroLevelOptions">
-        <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul>
-      </x-crumb>
-      <x-crumb value="Flyte" dropdown="true" listid="firstLevelOptions">
-         <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul>
+        <li onclick="console.log('Food selected')"><a href="#"  data-id="item">Food 1</a></li>
+        <li onclick="console.log('Clothing selected')"><a href="#" data-id="item">Clothing 1</a></li>
+        <li onclick="console.log('Housing selected')"><a href="#" data-id="item">Housing 1</a></li>
       </x-crumb>
       <x-crumb value="Beverage" dropdown="true" listid="secondLevelOptions">
-       <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul></x-crumb>
-      <x-crumb value="Coke" dropdown="true" listid="thirdLevelOptions" add="true">
-       <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul></x-crumb>
+        <li onclick="console.log('Automobiles selected')"><a href="#" data-id="item">Automobiles</a></li>
+        <li onclick="console.log('Laundry selected')"><a href="#" data-id="item">Laundry</a></li>
+        <li onclick="console.log('Cleaning selected')"><a href="#" data-id="item">Cleaning</a></li>
+      </x-crumb>
+      <x-crumb value="Coke" dropdown="true" listid="thirdLevelOptions">
+        <li onclick="console.log('Water selected')"><a href="#" data-id="item">Water</a></li>
+        <li onclick="console.log('Eatables selected')"><a href="#" data-id="item">Eatables</a></li>
+        <li onclick="console.log('grocery selected')"><a href="#" data-id="item">grocery</a></li>
+      </x-crumb>
+      <x-crumb value="Add" dropdown="true" listid="addLevelOptions" add="true">
+        
+      </x-crumb>
     </x-breadcrumb>
     ```
 
 ## Options
 
-Attribute       | Options             | Default | Description
----             | ---                 | ---     | ---
-`allelements`   | *JSON*              | []      | JSON array of string values of drop down options.
-`dropdown`      | *boolean*           | `true`  | Should a searchable options list come up for this crumb
+## x-breadcrumb
+Attribute       | Options             | Default           | Description
+---             | ---                 | ---               | ---
+`orientation`   | *String*            | 'horizontal'      | orientation of the breadcrumbs to appeartoptions.
+
+
+## x-crumb
+Attribute       | Options             | Default           | Description
+---             | ---                 | ---               | ---
+`value`   | *String*                  | 'horizontal'      | label of the option.
+`dropdown`      | *boolean*           | `true`            | Should a searchable options list come up for this crumb
+`listid`        | *String*            | ``                | list id to be used
+
 
 
 ## Contributing

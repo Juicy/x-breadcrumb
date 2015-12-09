@@ -1,5 +1,4 @@
 <link rel="import" href="./bower_components/polymer/polymer.html">
-
 <dom-module id="x-breadcrumb">
   <template>
     <style>
@@ -8,12 +7,34 @@
       background: #efefef;
       font-family: lato;
       text-align: center;
-      margin-top: 3em;
+    }
+    
+    * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      margin: 0 auto;
+      -moz-box-shadow: 0 0 5px #111;
+      -webkit-box-shadow: 0 0 5px #111;
+      box-shadow: 0 0 5px #111;
+      height: 500px;
+    }
+    
+    #limheight {
+      -webkit-column-count: 5;
+      -moz-column-count: 5;
+      column-count: 5;
     }
     </style>
     <div>
       <div class="wrapper">
-        <ul class="breadcrumbs">
+        <ul id="limheight" class="breadcrumbs" style$="[[orientationStyle]]">
           <content></content>
         </ul>
       </div>
@@ -27,10 +48,18 @@
       is: 'x-breadcrumb',
 
       properties: {
-
+        orientation: {
+          type: String,
+          value: '',
+          notify: true
+        }
       },
       attached: function() {
-
+        if(this.orientation === 'vertical'){
+          this.orientationStyle ='display: inline-flex;';
+        }else{
+          this.orientationStyle ='display: block;';
+        }
       },
       value: function() {
 

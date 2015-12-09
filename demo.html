@@ -8,68 +8,72 @@
   <meta name="generator" content="x-breadcrumb" />
   <title>X-Breadcrumb Demo</title>
   <!-- Place favicon.ico in the `app/` directory -->
-
   <!-- Chrome for Android theme color -->
   <meta name="theme-color" content="#2E3AA1">
-
   <!-- Tile color for Win8 -->
   <meta name="msapplication-TileColor" content="#3372DF">
-
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="application-name" content="X-Crumb">
-  
-
   <!-- Add to homescreen for Safari on iOS -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="apple-mobile-web-app-title" content="X-Crumb sample">
-
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
-
   <!-- will be replaced with elements/elements.vulcanized.html -->
-  <link rel="import" href="x-breadcrumb.html" >
+  <link rel="import" href="x-breadcrumb.html">
   <link rel="import" href="x-crumb.html">
   <!-- endreplace-->
-
-
 </head>
 
 <body unresolved class="fullbleed layout vertical">
   <template is="dom-bind" id="app">
-    <x-breadcrumb>
+    <x-breadcrumb orientation='vertical'>
       <x-crumb value="Food" dropdown="true" listid="zeroLevelOptions">
-        <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul>
-      </x-crumb>
-      <x-crumb value="Flyte" dropdown="true" listid="firstLevelOptions">
-         <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul>
+        <li onclick="console.log('Food selected')"><a href="#"  data-id="item">Food 1</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Clothing 1</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Housing 1</a></li>
       </x-crumb>
       <x-crumb value="Beverage" dropdown="true" listid="secondLevelOptions">
-       <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul></x-crumb>
-      <x-crumb value="Coke" dropdown="true" listid="thirdLevelOptions" add="true">
-       <ul>
-          <li onclick="console.log('Food selected')">Food</li>
-          <li onclick="console.log('Clothing selected')">Clothing</li>
-          <li onclick="console.log('Housing selected')">Housing</li>
-        </ul></x-crumb>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Automobiles</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Laundry</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Cleaning</a></li>
+      </x-crumb>
+      <x-crumb value="Coke" dropdown="true" listid="thirdLevelOptions">
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Water</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Eatables</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">grocery</a></li>
+      </x-crumb>
+      <x-crumb value="Add" dropdown="true" listid="addLevelOptions" add="true">
+        
+      </x-crumb>
+    </x-breadcrumb>
+
+    <br><br><br><br>
+
+    <x-breadcrumb>
+      <x-crumb value="Food" dropdown="true" listid="zeroLevelOptions1">
+        <li onclick="console.log('Food selected')"><a href="#"  data-id="item">Food 1</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Clothing 1</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Housing 1</a></li>
+      </x-crumb>
+      <x-crumb value="Beverage" dropdown="true" listid="secondLevelOptions1">
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Automobiles</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Laundry</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Cleaning</a></li>
+      </x-crumb>
+      <x-crumb value="Coke" dropdown="true" listid="thirdLevelOptions1">
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Water</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">Eatables</a></li>
+        <li onclick="console.log('Food selected')"><a href="#" data-id="item">grocery</a></li>
+      </x-crumb>
+      <x-crumb value="Add" dropdown="true" listid="addLevelOptions1" add="true">
+        
+      </x-crumb>
     </x-breadcrumb>
   </template>
-
- 
 </body>
 
 </html>

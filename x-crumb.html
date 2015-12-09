@@ -349,7 +349,7 @@
       width: 100%;
     }
     </style>
-    <li class="block" on-click="emitSelect">
+    <li class="block" on-click="handleOption">
       <template is="dom-if" if="{{!add}}">
         <input type="checkbox" name="item" id="[[listid]]" />
         <label for$="[[listid]]">[[value]]</label>
@@ -392,7 +392,8 @@
           notify: true
         }
       },
-      emitSelect: function(e) {
+      handleOption: function(e) {
+        e.preventDefault();
         if (e.target && (e.target.getAttribute('data-id') === 'item')) {
           this.value = e.target.innerHTML;
         }

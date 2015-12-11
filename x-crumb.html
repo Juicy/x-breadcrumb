@@ -307,7 +307,7 @@
     }
     
     ::content .options {
-      height: 0;
+      /**height: 0;temporarily disabled by @warpech because I was not able to expand dropdown in pim-demo-element.html*/
       display: block;
       width: 108%;
       overflow: hidden;
@@ -354,7 +354,7 @@
         <input type="checkbox" name="item" id="[[listid]]" />
         <label for$="[[listid]]">[[value]]</label>
         <ul class="options">
-          <input type="text" class="search" placeholder="Search">
+          <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
           <content></content>
         </ul>
       </template>
@@ -374,6 +374,11 @@
         dropdown: {
           type: Boolean,
           value: true,
+          notify: true
+        },
+        searchQuery: {
+          type: String,
+          value: "",
           notify: true
         },
         alloptions: {

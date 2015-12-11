@@ -1,0 +1,186 @@
+<link rel="import" href="./bower_components/polymer/polymer.html">
+<link rel="import" href="x-breadcrumb.html">
+<link rel="import" href="x-crumb.html">
+
+<dom-module id="pim-demo-element">
+  <!--
+  This demo is explained in https://github.com/Juicy/x-breadcrumb/issues/6
+  -->
+  <template>
+    <x-breadcrumb>
+      <template is="dom-repeat" items="{{path}}" id="tmpl">
+        <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}">
+          <ul>
+            <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
+              <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
+            </template>
+            <li on-click="addClicked" crumb="{{item}}">+ Add a new type</li>
+          </ul>
+        </x-crumb>
+      </template>
+    </x-breadcrumb>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      var db = {
+        Name: "Products",
+        Children: [{
+          Name: "Food",
+          Children: [{
+            Name: "Dairy",
+            Children: [{
+              Name: "Milk",
+              Children: [{
+                Name: "Coffee milk 5 ML",
+                Children: []
+              }, {
+                Name: "Milk 1 L",
+                Children: []
+              }]
+            }]
+          }, {
+            Name: "Meat",
+            Children: []
+          }]
+        }, {
+          Name: "Metal",
+          Children: [{
+            Name: "Screws",
+            Children: [{
+              Name: "Phillips flat head",
+              Children: []
+            }]
+          }]
+        }]
+      };
+
+      function addParentReference(parent) {
+        for (var i = 0; i < parent.Children.length; i++) {
+          parent.Children[i].Parent = parent;
+          if (parent.Children[i].Children) {
+            addParentReference(parent.Children[i]);
+          }
+        }
+      }
+      addParentReference(db);
+
+      function findProductByName(name, parent) {
+        if (!parent) {
+          parent = db;
+        }
+        var found;
+        for (var i = 0; i < parent.Children.length; i++) {
+          if (parent.Children[i].Name == name) {
+            found = parent.Children[i];
+          } else if (parent.Children[i].Children) {
+            found = findProductByName(name, parent.Children[i]);
+          }
+          if (found) {
+            return found;
+          }
+        }
+      }
+
+      Polymer({
+        is: 'pim-demo-element',
+
+        properties: {
+          path: {
+            type: Array,
+            value: []
+          }
+        },
+
+        ready: function() {
+          var product = findProductByName("Food");
+          //var product = findProductByName("Milk");
+          this.rebuildBreadcrumb(product);
+        },
+
+        searchFilter: function(siblings, query) {
+          var out = [];
+          var re = new RegExp("^" + query, "i");
+          for (var i = siblings.length - 1; i >= 0; i--) {
+            if (re.test(siblings[i].Name) == true) {
+              out.push(siblings[i]);
+            }
+          }
+          console.log("search result for", query, out);
+          return out;
+        },
+
+        searchChanged: function(event, query) {
+          var crumb = event.target.item;
+          crumb.SearchItem = query;
+          var ttt = this.$.tmpl.querySelectorAll('.ttt');
+          console.log("ttt", tttd);
+          //.render()
+        },
+
+        siblingClicked: function(event) {
+          var sibling = event.target.sibling;
+          var product = findProductByName(sibling.Name);
+          this.rebuildBreadcrumb(product);
+        },
+
+        addClicked: function(event) {
+          var crumb = event.target.crumb;
+          this.rebuildBreadcrumb(crumb.Product.Parent, true);
+        },
+
+        rebuildBreadcrumb: function(product, isAdd) {
+          //Since Prodcuts is a graph, and a breadcrumb is a flat structure,
+          //I need an array to show a path to a product (e.g. "Milk"):
+          // Food -- inactive, not ghost
+          // Diary -- inactive, not ghost
+          // Milk -- active, not ghost
+          // 2 subtypes of milk - inactive, ghost
+
+          this.splice('path', 0, this.path.length);
+
+          if (isAdd) {
+            this.unshift('path', {
+              Product: {
+                Parent: product
+              },
+              Label: "Add a new type",
+              SearchQuery: "",
+              Siblings: product.Children,
+              IsGhost: false,
+              IsActive: true
+            });
+          } else {
+            this.unshift('path', {
+              Product: {
+                Parent: product
+              },
+              Label: product.Children.length + " sub types",
+              SearchQuery: "",
+              Siblings: product.Children,
+              IsGhost: true,
+              IsActive: false
+            });
+          }
+
+          var current = product;
+
+          while (current.Name !== "Products") {
+            this.unshift('path', {
+              Product: current,
+              Label: current.Name,
+              SearchQuery: "",
+              Siblings: current.Parent.Children,
+              IsGhost: false,
+              IsActive: (current == product && !isAdd),
+            });
+            current = current.Parent;
+          }
+
+          console.log("Breadcrumb path to", product.Name, this.path);
+        }
+      });
+    })();
+  </script>
+</dom-module>

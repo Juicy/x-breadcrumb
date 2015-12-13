@@ -7,9 +7,9 @@
   This demo is explained in https://github.com/Juicy/x-breadcrumb/issues/6
   -->
   <template>
-    <x-breadcrumb>
+    <x-breadcrumb orientation='vertical'>
       <template is="dom-repeat" items="{{path}}" id="tmpl">
-        <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}">
+        <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
           <ul>
             <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
               <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>

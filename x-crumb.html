@@ -40,7 +40,7 @@
     }
     
     .button:hover {
-      background: #4566a4;
+      
       text-decoration: none;
     }
     
@@ -111,8 +111,6 @@
     top: 0px;
     left: 0px;
     z-index: -1;
-    -webkit-transform: skewX(35deg);
-    transform: skewX(35deg);
   }
   
   ::content li label:before {
@@ -124,19 +122,70 @@
     bottom: 0px;
     left: 0px;
     z-index: -1;
-    -webkit-transform: skewX(-35deg);
-    transform: skewX(-35deg);
   }
   
   ::content li label:hover:after {
     background: linear-gradient(to bottom, black, green);
+    -webkit-transform: skewX(35deg);
+    transform: skewX(35deg);
   }
   
   ::content li label:hover:before {
     background: linear-gradient(to bottom, green, lightgreen);
+    -webkit-transform: skewX(-35deg);
+    transform: skewX(-35deg);
+  }
+
+  .activecrumb {
+    /*background: cadetblue;*/
+    background: rgba(53,122,232,0)
+  }
+  .activecrumb:before {
+    -webkit-transform: skewX(-35deg);
+    transform: skewX(-35deg);
+    background: rgba(31, 109, 255,0.4)
+  }
+
+  .activecrumb:after {
+    -webkit-transform: skewX(35deg);
+    transform: skewX(35deg);
+    /*background: cadetblue;*/
+    background: rgba(31, 109, 255,0.4)
   }
     
-    
+  .ghostclass {
+    background: rgba(31, 109, 255,0);
+  }
+  .ghostclass:before {
+    background: rgba(31, 109, 255,0.4);
+    -webkit-transform: skewX(-35deg);
+    transform: skewX(-35deg);
+  }
+
+  .ghostclass:after {
+    background: rgba(31, 109, 255,0.4);
+    -webkit-transform: skewX(35deg);
+    transform: skewX(35deg);
+  }
+
+
+  .normalclass {
+    background: rgba(128, 128, 128,0);
+  }
+  .normalclass:before {
+    background: rgba(128, 128, 128,1);
+    -webkit-transform: skewX(-35deg);
+    transform: skewX(-35deg);
+  }
+
+  .normalclass:after {
+    background: rgba(128, 128, 128,1);
+    -webkit-transform: skewX(35deg);
+    transform: skewX(35deg);
+  }
+
+
+
     ::content li input[type='checkbox'] {
       /*display: none;*/
     }
@@ -351,7 +400,7 @@
     <li class="block" on-click="handleOption">
       <template is="dom-if" if="{{!add}}">
         <input type="checkbox" name="item" id="[[listid]]" >
-        <label for$="[[listid]]" style$="[[ghoststyle]]">[[value]]</label>
+        <label for$="[[listid]]"  class$="[[activeclass]]  [[normalclass]] [[ghostclass]]">[[value]]</label>
 
         </template>
         <ul class="options">
@@ -367,7 +416,7 @@
         </ul>  -->
       </template>
       <template is="dom-if" if="{{add}}">
-        <li class="add">Add</li>
+        <li><label class="fa fa-plus">Add</label></li>
       </template>
     </li>
     <!-- 
@@ -396,6 +445,11 @@
           value: false,
           notify: true
         },
+        active: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
         searchQuery: {
           type: String,
           value: "",
@@ -416,7 +470,17 @@
           value: '',
           notify: true
         },
-        ghoststyle: {
+        ghostclass: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        activeclass: {
+          type: String,
+          value: '',
+          notify: true
+        },
+        normalclass: {
           type: String,
           value: '',
           notify: true
@@ -430,10 +494,16 @@
       },
       attached: function() {},
       ready: function() {
-        if(this.ghost){
-          this.ghoststyle = 'background: rgba(53, 122, 232,0.4)';
-        }else{
-          this.ghoststyle = 'background: rgba(53, 122, 232,1)';
+        
+        
+          if(this.ghost){
+            this.ghostclass = 'ghostclass';
+          }else{
+            if(!this.active){
+              this.normalclass = 'normalclass';
+            }else{
+              this.activeclass = 'activecrumb';
+            }
         }
       },
       value: function() {}

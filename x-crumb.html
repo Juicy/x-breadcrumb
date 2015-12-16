@@ -89,13 +89,12 @@
     
 
 
-  ::content li label  a{
+  ::content li label{
     margin-top: 2px;
     margin-bottom: 2px;
     color: white;
     text-decoration: none;
     padding: 10px 30px 10px 45px;
-    background: transparent;
     position: relative;
     display: block;
     float: left;
@@ -103,12 +102,11 @@
     
   }
   
-  ::content li label a:after {
+  ::content li label:after {
     content: " ";
     display: block;
     width: 90%;
     height: 50%;
-    background: blue;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -117,7 +115,7 @@
     transform: skewX(35deg);
   }
   
-  ::content li label a:before {
+  ::content li label:before {
     content: " ";
     display: block;
     width: 90%;
@@ -126,16 +124,15 @@
     bottom: 0px;
     left: 0px;
     z-index: -1;
-    background: blue;
     -webkit-transform: skewX(-35deg);
     transform: skewX(-35deg);
   }
   
-  ::content li label a:hover:after {
+  ::content li label:hover:after {
     background: linear-gradient(to bottom, black, green);
   }
   
-  ::content li label a:hover:before {
+  ::content li label:hover:before {
     background: linear-gradient(to bottom, green, lightgreen);
   }
     
@@ -200,6 +197,7 @@
     ::content li input[type='checkbox'] {
       position: relative;
       float: right;
+      display: none;
       margin-right: 12px;
       top: 30px;
       z-index: 12;
@@ -352,8 +350,10 @@
     </style>
     <li class="block" on-click="handleOption">
       <template is="dom-if" if="{{!add}}">
-        <input type="checkbox" name="item" id="[[listid]]" />
-        <label for$="[[listid]]"><a href ="#">[[value]]</a></label>
+        <input type="checkbox" name="item" id="[[listid]]" >
+        <label for$="[[listid]]" style$="[[ghoststyle]]">[[value]]</label>
+
+        </template>
         <ul class="options">
           <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
           <content></content>
@@ -391,6 +391,11 @@
           value: true,
           notify: true
         },
+        ghost: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
         searchQuery: {
           type: String,
           value: "",
@@ -410,7 +415,13 @@
           type: String,
           value: '',
           notify: true
+        },
+        ghoststyle: {
+          type: String,
+          value: '',
+          notify: true
         }
+
       },
       handleOption: function(e) {
         if (e.target && (e.target.getAttribute('data-id') === 'item')) {
@@ -418,6 +429,13 @@
         }
       },
       attached: function() {},
+      ready: function() {
+        if(this.ghost){
+          this.ghoststyle = 'background: rgba(53, 122, 232,0.4)';
+        }else{
+          this.ghoststyle = 'background: rgba(53, 122, 232,1)';
+        }
+      },
       value: function() {}
     });
   })();

@@ -6,37 +6,44 @@
   This demo is explained in https://github.com/Juicy/x-breadcrumb/issues/6
   -->
   <template>
-     <div>
+    <style type="text/css">
+    .addnewTypeDiv {
+      float: left;
+      margin-left: 43%;
+      position: absolute;
+      margin-top: 21%;
+      z-index: 22;
+      background: rgb(156, 187, 246);
+      padding: 2%;
+    }
+    </style>
       <template is="dom-if" if="{{addTypeMode}}">
-        <strong>Add a new type</strong> <br>
-        <input type="text" value="{{addedTypeVal::input}}"> <br>
-        <button on-click="addClicked">Add</button>
-     </template>
-
+      <div class="addnewTypeDiv">
+        <span><strong>Add a new type</strong></span><br><br>
+        <span>
+        <input type="text" value="{{addedTypeVal::input}}"></span><br><br>
+        <span><button on-click="addClicked">Add</button></span>
     </div>
+      </template>
     <x-breadcrumb orientation='vertical'>
       <template is="dom-repeat" items="{{path}}" id="tmpl">
-        <x-crumb 
-          value="{{item.Label}}" 
-          search-query="{{item.SearchQuery}}" 
-          item="{{item}}" 
-          dropdown="true" 
-          active$="{{item.IsActive}}" 
-          ghost$="{{item.IsGhost}}" 
-          listid="tmpl-[[index]]">
+        <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
           <ul>
             <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
               <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
             </template>
-            <ul><li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li></ul>
+            <ul>
+              <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li>
+            </ul>
           </ul>
         </x-crumb>
       </template>
       <template if="dom-if" if="{{noItems}}">
-        <ul><li on-click="addClicked" crumb="{{item}}">Add a new type</li></ul>
+        <ul>
+          <li on-click="addClicked" crumb="{{item}}">Add a new type</li>
+        </ul>
       </template>
     </x-breadcrumb>
-   
   </template>
   <script>
   (function() {
@@ -66,7 +73,7 @@
           type: Boolean,
           value: false
         },
-        addTypeMode : {
+        addTypeMode: {
           type: Boolean,
           value: false
         },
@@ -113,9 +120,9 @@
       },
 
       ready: function() {
-        if(this.db && this.db.length == 0)
+        if (this.db && this.db.length == 0)
           this.noItems = true;
-        else{
+        else {
           var product = this.findProductByName(this.db, (this.db.Children && this.db.Children[0] && this.db.Children[0].Name));
           this.rebuildBreadcrumb(product);
           this.addParentReference(this.db);
@@ -123,28 +130,28 @@
       },
 
       searchFilter: function(siblings, query) {
-        if(this.searchHandler) 
-          return window[this.searchHandler](siblings, query);// TODO :: CHECK IF THIS IS HARDCODING
+        if (this.searchHandler)
+          return window[this.searchHandler](siblings, query); // TODO :: CHECK IF THIS IS HARDCODING
       },
 
       siblingClicked: function(event) {
-        if(this.siblingClickHandler){
-          return window[this.siblingClickHandler](this,event);// TODO :: CHECK IF THIS IS HARDCODING
+        if (this.siblingClickHandler) {
+          return window[this.siblingClickHandler](this, event); // TODO :: CHECK IF THIS IS HARDCODING
         }
       },
 
-      addClicked: function(){
+      addClicked: function() {
         // debugger;
         // ADD TO DATA, that REFLECTS
         this.parentCrumb.Product.Parent.Children.push({
-          Name : this.addedTypeVal,
-          Parent: this.parentCrumb.Product.Parent ,
+          Name: this.addedTypeVal,
+          Parent: this.parentCrumb.Product.Parent,
           Children: []
         });
-        
-        this.rebuildBreadcrumb(this.parentCrumb.Product.Parent , true);
-        
-        this.afterAddingType(this.parentCrumb.Product.Parent ,this.addedTypeVal);
+
+        this.rebuildBreadcrumb(this.parentCrumb.Product.Parent, true);
+
+        this.afterAddingType(this.parentCrumb.Product.Parent, this.addedTypeVal);
         this.addTypeMode = false;
         this.addedTypeVal = '';
       },
@@ -154,9 +161,9 @@
         this.addTypeMode = true;
       },
 
-      afterAddingType: function(parentToAdd,newTypeAdded) {
-        if(this.onAfterTypeAdd){
-          return window[this.onAfterTypeAdd](this,parentToAdd,newTypeAdded);// TODO :: CHECK IF THIS IS HARDCODING
+      afterAddingType: function(parentToAdd, newTypeAdded) {
+        if (this.onAfterTypeAdd) {
+          return window[this.onAfterTypeAdd](this, parentToAdd, newTypeAdded); // TODO :: CHECK IF THIS IS HARDCODING
         }
       },
 
@@ -174,15 +181,15 @@
           if (isAdd) {
             this.unshift('path', {
               Product: {
-                Parent: product.Children[product.Children.length-1]
+                Parent: product.Children[product.Children.length - 1]
               },
-              Label: 0+ " sub types",
+              Label: 0 + " sub types",
               SearchQuery: "",
               Siblings: product.Children,
               IsGhost: false,
               IsActive: true
             });
-            current = product.Children[product.Children.length-1];
+            current = product.Children[product.Children.length - 1];
           } else {
             this.unshift('path', {
               Product: {

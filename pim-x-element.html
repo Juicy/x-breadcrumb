@@ -123,9 +123,9 @@
         if (this.db && this.db.length == 0)
           this.noItems = true;
         else {
+          this.addParentReference(this.db);
           var product = this.findProductByName(this.db, (this.db.Children && this.db.Children[0] && this.db.Children[0].Name));
           this.rebuildBreadcrumb(product);
-          this.addParentReference(this.db);
         }
       },
 

@@ -392,12 +392,8 @@
 
 
 
-  
-
-
-
     </style>
-    <li class="block" on-click="handleOption">
+    <li class="block">
       <template is="dom-if" if="{{!add}}">
         <input type="checkbox" name="item" id="[[listid]]" >
         <label for$="[[listid]]"  class$="[[activeclass]]  [[normalclass]] [[ghostclass]]">[[value]]</label>
@@ -407,13 +403,6 @@
           <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
           <content></content>
         </ul>
-       <!--  <li class="active">
-          <a href="#"><label for$="[[listid]]">[[value]]</label></a>
-        </li>
-        <ul class="options">
-          <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
-          <content></content>
-        </ul>  -->
       </template>
       <template is="dom-if" if="{{add}}">
         <li><label class="fa fa-plus">Add</label></li>
@@ -487,15 +476,8 @@
         }
 
       },
-      handleOption: function(e) {
-        if (e.target && (e.target.getAttribute('data-id') === 'item')) {
-          this.value = e.target.innerHTML;
-        }
-      },
       attached: function() {},
       ready: function() {
-        
-        
           if(this.ghost){
             this.ghostclass = 'ghostclass';
           }else{

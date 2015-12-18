@@ -12,7 +12,13 @@
 <body>
   <!-- initial state screen -->
   <template id="pixEl" is="dom-bind">
-    <pim-x-element id="pimEl" db="{{db}}"></pim-x-element>
+    <pim-x-element id="pimEl" 
+      db="{{db}}" 
+      search-handler="{{searchHandler}}" 
+      sibling-click-handler="{{siblingClickHandler}}"
+      on-after-type-add="{{afterAddHandler}}">
+
+    </pim-x-element>
   </template>
 </body>
 <script>
@@ -69,9 +75,43 @@ var startingDb = {
   }]
 };
 
+var onSearch = function(siblings, query) {
+  console.log(' on search logic called ');
+  var out = [];
+  var re = new RegExp("^" + query, "i");
+  for (var i = siblings.length - 1; i >= 0; i--) {
+    if (re.test(siblings[i].Name) == true) {
+      out.push(siblings[i]);
+    }
+  }
+  console.log("search result for", query, out);
+  return out;
+}
+
+var onSiblingClick = function($this,event){
+  var sibling = event.target.sibling;
+  var product = $this.findProductByName(sibling.Parent, sibling.Name);
+  $this.rebuildBreadcrumb(product);
+}
+
+var afterAddHandler = function($this,parentToAdd,newTypeAdded){
+  console.log(' onAfterTypeAdd  called');
+  // TODO :: HANDLE UPDATING ADDED TYPE TO BACKEND FROM HERE
+}
+
 document.addEventListener('DOMContentLoaded', function(e) {
+  // associate data for the breadcrumbs
   document.querySelector('#pixEl').db = startingDb;
+
+  // associate searchCritirea behaviour
+  document.querySelector('#pixEl').searchHandler  = "onSearch";
+  document.querySelector('#pixEl').siblingClickHandler  = "onSiblingClick";
+  document.querySelector('#pixEl').afterAddHandler = "afterAddHandler";
+  
 });
+
+
+  
 </script>
 
 </html>

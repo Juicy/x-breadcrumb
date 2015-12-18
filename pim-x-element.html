@@ -3,7 +3,7 @@
 <link rel="import" href="x-crumb.html">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<dom-module id="pim-demo-element">
+<dom-module id="pim-x-element">
   <!--
   This demo is explained in https://github.com/Juicy/x-breadcrumb/issues/6
   -->
@@ -33,58 +33,26 @@
     (function() {
       'use strict';
 
-      var db = {
-        Name: "Products",
-        Children: [{
-          Name: "Food",
-          Children: [{
-            Name: "Dairy",
-            Children: [{
-              Name: "Milk",
-              Children: [{
-                Name: "Coffee milk 5 ML",
-                Children: []
-              }, {
-                Name: "Milk 1 L",
-                Children: []
-              }]
-            }]
-          }, {
-            Name: "Meat",
-            Children: []
-          }]
-        }, {
-          Name: "Metal",
-          Children: [{
-            Name: "Screws",
-            Children: [{
-              Name: "Phillips flat head",
-              Children: []
-            }]
-          }]
-        }]
-      };
-
       function addParentReference(parent) {
-        for (var i = 0; i < parent.Children.length; i++) {
+        for (var i = 0; (parent.Children && i < parent.Children.length); i++) {
           parent.Children[i].Parent = parent;
           if (parent.Children[i].Children) {
             addParentReference(parent.Children[i]);
           }
         }
       }
-      addParentReference(db);
+     
 
-      function findProductByName(name, parent) {
+      function findProductByName(db, name, parent) {
         if (!parent) {
           parent = db;
         }
         var found;
-        for (var i = 0; i < parent.Children.length; i++) {
+        for (var i = 0; (parent.Children && i < parent.Children.length); i++) {
           if (parent.Children[i].Name == name) {
             found = parent.Children[i];
           } else if (parent.Children[i].Children) {
-            found = findProductByName(name, parent.Children[i]);
+            found = findProductByName(parent, name, parent.Children[i]);
           }
           if (found) {
             return found;
@@ -93,19 +61,81 @@
       }
 
       Polymer({
-        is: 'pim-demo-element',
+        is: 'pim-x-element',
 
         properties: {
           path: {
             type: Array,
             value: []
+          },
+          db: {
+            type: JSON,
+            value: {
+              Name: "Products",
+              Children: []
+            },
+            reflectToAttribute:true
           }
         },
 
         ready: function() {
-          var product = findProductByName("Food");
+          // debugger;
+          this.db = {
+  Name: "Products",
+  Children: [{
+    Name: "Food",
+    Children: [{
+      Name: "Dairy",
+      Children: [{
+        Name: "Milk",
+        Children: [{
+          Name: "Coffee milk 5 ML",
+          Children: []
+        }, {
+          Name: "Milk 1 L",
+          Children: []
+        }]
+      }]
+    }, {
+      Name: "Meat",
+      Children: []
+    }]
+  }, {
+    Name: "Metal",
+    Children: [{
+      Name: "Screws",
+      Children: [{
+        Name: "Phillips flat head",
+        Children: []
+      }]
+    }]
+  }, {
+    Name: "Laundry",
+    Children: [{
+      Name: "Detergent",
+      Children: [{
+        Name: "Tide",
+        Children: []
+      }, {
+        Name: "Surf",
+        Children: []
+      }, {
+        Name: "Areal",
+        Children: [{
+          Name: "Super",
+          Children: []
+        }, {
+          Name: "Ultra",
+          Children: []
+        }]
+      }]
+    }]
+  }]
+}
+          var product = findProductByName(this.db,"Food");
           //var product = findProductByName("Milk");
           this.rebuildBreadcrumb(product);
+          addParentReference(this.db);
         },
 
         searchFilter: function(siblings, query) {
@@ -130,7 +160,7 @@
 
         siblingClicked: function(event) {
           var sibling = event.target.sibling;
-          var product = findProductByName(sibling.Name);
+          var product = findProductByName(sibling.Parent,sibling.Name);
           this.rebuildBreadcrumb(product);
         },
 
@@ -149,45 +179,47 @@
 
           this.splice('path', 0, this.path.length);
 
-          if (isAdd) {
-            this.unshift('path', {
-              Product: {
-                Parent: product
-              },
-              Label: "Add a new type",
-              SearchQuery: "",
-              Siblings: product.Children,
-              IsGhost: false,
-              IsActive: true
-            });
-          } else {
-            this.unshift('path', {
-              Product: {
-                Parent: product
-              },
-              Label: product.Children.length + " sub types",
-              SearchQuery: "",
-              Siblings: product.Children,
-              IsGhost: true,
-              IsActive: false
-            });
+          if(product){
+            if (isAdd) {
+              this.unshift('path', {
+                Product: {
+                  Parent: product
+                },
+                Label: "Add a new type",
+                SearchQuery: "",
+                Siblings: product.Children,
+                IsGhost: false,
+                IsActive: true
+              });
+            } else {
+              this.unshift('path', {
+                Product: {
+                  Parent: product
+                },
+                Label: product.Children.length + " sub types",
+                SearchQuery: "",
+                Siblings: product.Children,
+                IsGhost: true,
+                IsActive: false
+              });
+            }
+            var current = product;
+
+            while (current && current.Name !== "Products") {
+              this.unshift('path', {
+                Product: current,
+                Label: current.Name,
+                SearchQuery: "",
+                Siblings: (current.Parent && current.Parent.Children) || [],
+                IsGhost: false,
+                IsActive: (current == product && !isAdd),
+              });
+              current = current.Parent;
+            }
+
+            console.log("Breadcrumb path to", product.Name, this.path);
           }
 
-          var current = product;
-
-          while (current.Name !== "Products") {
-            this.unshift('path', {
-              Product: current,
-              Label: current.Name,
-              SearchQuery: "",
-              Siblings: current.Parent.Children,
-              IsGhost: false,
-              IsActive: (current == product && !isAdd),
-            });
-            current = current.Parent;
-          }
-
-          console.log("Breadcrumb path to", product.Name, this.path);
         }
       });
     })();

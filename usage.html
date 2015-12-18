@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>PIM Demo</title>
+  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="bower_components/polymer/polymer.html">
+  <link rel="import" href="pim-x-element.html">
+</head>
+
+<body>
+  <!-- initial state screen -->
+  <pim-x-element id="pimEl" db="[]"></pim-x-element>
+</body>
+<script>
+var startingDb = {
+  Name: "Products",
+  Children: [{
+    Name: "Food",
+    Children: [{
+      Name: "Dairy",
+      Children: [{
+        Name: "Milk",
+        Children: [{
+          Name: "Coffee milk 5 ML",
+          Children: []
+        }, {
+          Name: "Milk 1 L",
+          Children: []
+        }]
+      }]
+    }, {
+      Name: "Meat",
+      Children: []
+    }]
+  }, {
+    Name: "Metal",
+    Children: [{
+      Name: "Screws",
+      Children: [{
+        Name: "Phillips flat head",
+        Children: []
+      }]
+    }]
+  }, {
+    Name: "Laundry",
+    Children: [{
+      Name: "Detergent",
+      Children: [{
+        Name: "Tide",
+        Children: []
+      }, {
+        Name: "Surf",
+        Children: []
+      }, {
+        Name: "Areal",
+        Children: [{
+          Name: "Super",
+          Children: []
+        }, {
+          Name: "Ultra",
+          Children: []
+        }]
+      }]
+    }]
+  }]
+};
+
+document.addEventListener('DOMContentLoaded', function(e) {
+  document.querySelector('#pimEl').setAttribute('db', JSON.stringify(startingDb));
+});
+</script>
+
+</html>

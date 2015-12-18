@@ -132,7 +132,7 @@
     }]
   }]
 }
-          var product = findProductByName(this.db,"Food");
+          var product = findProductByName(this.db,(this.db.Children[0] && this.db.Children[0].Name));
           //var product = findProductByName("Milk");
           this.rebuildBreadcrumb(product);
           addParentReference(this.db);

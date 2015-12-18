@@ -11,7 +11,9 @@
 
 <body>
   <!-- initial state screen -->
-  <pim-x-element id="pimEl" db="[]"></pim-x-element>
+  <template id="pixEl" is="dom-bind">
+    <pim-x-element id="pimEl" db="{{db}}"></pim-x-element>
+  </template>
 </body>
 <script>
 var startingDb = {
@@ -68,9 +70,8 @@ var startingDb = {
 };
 
 document.addEventListener('DOMContentLoaded', function(e) {
-  document.querySelector('#pimEl').setAttribute('db',JSON.stringify(startingDb));
+  document.querySelector('#pixEl').db = startingDb;
 });
-
 </script>
 
 </html>

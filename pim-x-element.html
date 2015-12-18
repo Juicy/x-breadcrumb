@@ -41,8 +41,7 @@
           value: {
             Name: "Products",
             Children: []
-          },
-          reflectToAttribute: true
+          }
         }
       },
 
@@ -75,61 +74,7 @@
       },
 
       ready: function() {
-        // debugger;
-        this.db = {
-          Name: "Products",
-          Children: [{
-            Name: "Food",
-            Children: [{
-              Name: "Dairy",
-              Children: [{
-                Name: "Milk",
-                Children: [{
-                  Name: "Coffee milk 5 ML",
-                  Children: []
-                }, {
-                  Name: "Milk 1 L",
-                  Children: []
-                }]
-              }]
-            }, {
-              Name: "Meat",
-              Children: []
-            }]
-          }, {
-            Name: "Metal",
-            Children: [{
-              Name: "Screws",
-              Children: [{
-                Name: "Phillips flat head",
-                Children: []
-              }]
-            }]
-          }, {
-            Name: "Laundry",
-            Children: [{
-              Name: "Detergent",
-              Children: [{
-                Name: "Tide",
-                Children: []
-              }, {
-                Name: "Surf",
-                Children: []
-              }, {
-                Name: "Areal",
-                Children: [{
-                  Name: "Super",
-                  Children: []
-                }, {
-                  Name: "Ultra",
-                  Children: []
-                }]
-              }]
-            }]
-          }]
-        }
-        var product = this.findProductByName(this.db, (this.db.Children[0] && this.db.Children[0].Name));
-        //var product = findProductByName("Milk");
+        var product = this.findProductByName(this.db, (this.db.Children && this.db.Children[0] && this.db.Children[0].Name));
         this.rebuildBreadcrumb(product);
         this.addParentReference(this.db);
       },

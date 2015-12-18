@@ -1,7 +1,5 @@
-
 <link rel="import" href="x-breadcrumb.html">
 <link rel="import" href="x-crumb.html">
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <dom-module id="pim-x-element">
   <!--
@@ -10,15 +8,7 @@
   <template>
     <x-breadcrumb orientation='vertical'>
       <template is="dom-repeat" items="{{path}}" id="tmpl">
-        <x-crumb 
-          ghost="false" 
-          value="{{item.Label}}" 
-          search-query="{{item.SearchQuery}}" 
-          item="{{item}}" 
-          dropdown="true" 
-          active$="{{item.IsActive}}" 
-          ghost$="{{item.IsGhost}}" 
-          listid="tmpl-[[index]]">
+        <x-crumb ghost="false" value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
           <ul>
             <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
               <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
@@ -30,198 +20,204 @@
     </x-breadcrumb>
   </template>
   <script>
-    (function() {
-      'use strict';
+  (function() {
+    'use strict';
 
-      function addParentReference(parent) {
-        for (var i = 0; (parent.Children && i < parent.Children.length); i++) {
+
+
+
+
+
+    Polymer({
+      is: 'pim-x-element',
+
+      properties: {
+        path: {
+          type: Array,
+          value: []
+        },
+        db: {
+          type: JSON,
+          value: {
+            Name: "Products",
+            Children: []
+          },
+          reflectToAttribute: true
+        }
+      },
+
+      addParentReference: function(parent) {
+        for (var i = 0;
+          (parent.Children && i < parent.Children.length); i++) {
           parent.Children[i].Parent = parent;
           if (parent.Children[i].Children) {
-            addParentReference(parent.Children[i]);
+            this.addParentReference(parent.Children[i]);
           }
         }
-      }
-     
+      },
 
-      function findProductByName(db, name, parent) {
+      findProductByName: function(db, name, parent) {
         if (!parent) {
           parent = db;
         }
         var found;
-        for (var i = 0; (parent.Children && i < parent.Children.length); i++) {
+        for (var i = 0;
+          (parent.Children && i < parent.Children.length); i++) {
           if (parent.Children[i].Name == name) {
             found = parent.Children[i];
           } else if (parent.Children[i].Children) {
-            found = findProductByName(parent, name, parent.Children[i]);
+            found = this.findProductByName(parent, name, parent.Children[i]);
           }
           if (found) {
             return found;
           }
         }
-      }
+      },
 
-      Polymer({
-        is: 'pim-x-element',
-
-        properties: {
-          path: {
-            type: Array,
-            value: []
-          },
-          db: {
-            type: JSON,
-            value: {
-              Name: "Products",
+      ready: function() {
+        // debugger;
+        this.db = {
+          Name: "Products",
+          Children: [{
+            Name: "Food",
+            Children: [{
+              Name: "Dairy",
+              Children: [{
+                Name: "Milk",
+                Children: [{
+                  Name: "Coffee milk 5 ML",
+                  Children: []
+                }, {
+                  Name: "Milk 1 L",
+                  Children: []
+                }]
+              }]
+            }, {
+              Name: "Meat",
               Children: []
-            },
-            reflectToAttribute:true
-          }
-        },
-
-        ready: function() {
-          // debugger;
-          this.db = {
-  Name: "Products",
-  Children: [{
-    Name: "Food",
-    Children: [{
-      Name: "Dairy",
-      Children: [{
-        Name: "Milk",
-        Children: [{
-          Name: "Coffee milk 5 ML",
-          Children: []
-        }, {
-          Name: "Milk 1 L",
-          Children: []
-        }]
-      }]
-    }, {
-      Name: "Meat",
-      Children: []
-    }]
-  }, {
-    Name: "Metal",
-    Children: [{
-      Name: "Screws",
-      Children: [{
-        Name: "Phillips flat head",
-        Children: []
-      }]
-    }]
-  }, {
-    Name: "Laundry",
-    Children: [{
-      Name: "Detergent",
-      Children: [{
-        Name: "Tide",
-        Children: []
-      }, {
-        Name: "Surf",
-        Children: []
-      }, {
-        Name: "Areal",
-        Children: [{
-          Name: "Super",
-          Children: []
-        }, {
-          Name: "Ultra",
-          Children: []
-        }]
-      }]
-    }]
-  }]
-}
-          var product = findProductByName(this.db,(this.db.Children[0] && this.db.Children[0].Name));
-          //var product = findProductByName("Milk");
-          this.rebuildBreadcrumb(product);
-          addParentReference(this.db);
-        },
-
-        searchFilter: function(siblings, query) {
-          var out = [];
-          var re = new RegExp("^" + query, "i");
-          for (var i = siblings.length - 1; i >= 0; i--) {
-            if (re.test(siblings[i].Name) == true) {
-              out.push(siblings[i]);
-            }
-          }
-          console.log("search result for", query, out);
-          return out;
-        },
-
-        searchChanged: function(event, query) {
-          var crumb = event.target.item;
-          crumb.SearchItem = query;
-          var ttt = this.$.tmpl.querySelectorAll('.ttt');
-          console.log("ttt", tttd);
-          //.render()
-        },
-
-        siblingClicked: function(event) {
-          var sibling = event.target.sibling;
-          var product = findProductByName(sibling.Parent,sibling.Name);
-          this.rebuildBreadcrumb(product);
-        },
-
-        addClicked: function(event) {
-          var crumb = event.target.crumb;
-          this.rebuildBreadcrumb(crumb.Product.Parent, true);
-        },
-
-        rebuildBreadcrumb: function(product, isAdd) {
-          //Since Prodcuts is a graph, and a breadcrumb is a flat structure,
-          //I need an array to show a path to a product (e.g. "Milk"):
-          // Food -- inactive, not ghost
-          // Diary -- inactive, not ghost
-          // Milk -- active, not ghost
-          // 2 subtypes of milk - inactive, ghost
-
-          this.splice('path', 0, this.path.length);
-
-          if(product){
-            if (isAdd) {
-              this.unshift('path', {
-                Product: {
-                  Parent: product
-                },
-                Label: "Add a new type",
-                SearchQuery: "",
-                Siblings: product.Children,
-                IsGhost: false,
-                IsActive: true
-              });
-            } else {
-              this.unshift('path', {
-                Product: {
-                  Parent: product
-                },
-                Label: product.Children.length + " sub types",
-                SearchQuery: "",
-                Siblings: product.Children,
-                IsGhost: true,
-                IsActive: false
-              });
-            }
-            var current = product;
-
-            while (current && current.Name !== "Products") {
-              this.unshift('path', {
-                Product: current,
-                Label: current.Name,
-                SearchQuery: "",
-                Siblings: (current.Parent && current.Parent.Children) || [],
-                IsGhost: false,
-                IsActive: (current == product && !isAdd),
-              });
-              current = current.Parent;
-            }
-
-            console.log("Breadcrumb path to", product.Name, this.path);
-          }
-
+            }]
+          }, {
+            Name: "Metal",
+            Children: [{
+              Name: "Screws",
+              Children: [{
+                Name: "Phillips flat head",
+                Children: []
+              }]
+            }]
+          }, {
+            Name: "Laundry",
+            Children: [{
+              Name: "Detergent",
+              Children: [{
+                Name: "Tide",
+                Children: []
+              }, {
+                Name: "Surf",
+                Children: []
+              }, {
+                Name: "Areal",
+                Children: [{
+                  Name: "Super",
+                  Children: []
+                }, {
+                  Name: "Ultra",
+                  Children: []
+                }]
+              }]
+            }]
+          }]
         }
-      });
-    })();
+        var product = this.findProductByName(this.db, (this.db.Children[0] && this.db.Children[0].Name));
+        //var product = findProductByName("Milk");
+        this.rebuildBreadcrumb(product);
+        this.addParentReference(this.db);
+      },
+
+      searchFilter: function(siblings, query) {
+        var out = [];
+        var re = new RegExp("^" + query, "i");
+        for (var i = siblings.length - 1; i >= 0; i--) {
+          if (re.test(siblings[i].Name) == true) {
+            out.push(siblings[i]);
+          }
+        }
+        console.log("search result for", query, out);
+        return out;
+      },
+
+      searchChanged: function(event, query) {
+        var crumb = event.target.item;
+        crumb.SearchItem = query;
+        var ttt = this.$.tmpl.querySelectorAll('.ttt');
+        console.log("ttt", tttd);
+        //.render()
+      },
+
+      siblingClicked: function(event) {
+        var sibling = event.target.sibling;
+        var product = this.findProductByName(sibling.Parent, sibling.Name);
+        this.rebuildBreadcrumb(product);
+      },
+
+      addClicked: function(event) {
+        var crumb = event.target.crumb;
+        this.rebuildBreadcrumb(crumb.Product.Parent, true);
+      },
+
+      rebuildBreadcrumb: function(product, isAdd) {
+        //Since Prodcuts is a graph, and a breadcrumb is a flat structure,
+        //I need an array to show a path to a product (e.g. "Milk"):
+        // Food -- inactive, not ghost
+        // Diary -- inactive, not ghost
+        // Milk -- active, not ghost
+        // 2 subtypes of milk - inactive, ghost
+
+        this.splice('path', 0, this.path.length);
+
+        if (product) {
+          if (isAdd) {
+            this.unshift('path', {
+              Product: {
+                Parent: product
+              },
+              Label: "Add a new type",
+              SearchQuery: "",
+              Siblings: product.Children,
+              IsGhost: false,
+              IsActive: true
+            });
+          } else {
+            this.unshift('path', {
+              Product: {
+                Parent: product
+              },
+              Label: product.Children.length + " sub types",
+              SearchQuery: "",
+              Siblings: product.Children,
+              IsGhost: true,
+              IsActive: false
+            });
+          }
+          var current = product;
+
+          while (current && current.Name !== "Products") {
+            this.unshift('path', {
+              Product: current,
+              Label: current.Name,
+              SearchQuery: "",
+              Siblings: (current.Parent && current.Parent.Children) || [],
+              IsGhost: false,
+              IsActive: (current == product && !isAdd),
+            });
+            current = current.Parent;
+          }
+
+          console.log("Breadcrumb path to", product.Name, this.path);
+        }
+
+      }
+    });
+  })();
   </script>
 </dom-module>

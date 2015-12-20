@@ -39,7 +39,7 @@
           <ul>
             <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
               <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
-            </template>{Name:'','IsGhost:''}
+            </template>
             <ul>
               <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li>
             </ul>

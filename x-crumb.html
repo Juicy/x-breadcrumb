@@ -273,7 +273,8 @@
     }
     
     ::content ul ul {
-      background: #92AAE1;
+      /*background: #92AAE1;*/
+      color: white;
       margin: 0;
       padding: 0;
 
@@ -334,15 +335,16 @@
       content: "Open"
     }
     
-    
+
     ::content .options {
       height: 0;
-      background: #9CBBF6;
-      color: rgb(255, 255, 255);
+      /*background: #9CBBF6;*/
+      background:rgba(128, 128, 128,0.5);
+      /*color: rgb(255, 255, 255);*/
       position: relative;
       display: none;
       /*left: 4px;*/
-      width: 100%;
+      width: 90%;
       height: 250px;
       padding: 20px;
       transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
@@ -392,7 +394,7 @@
     <li class="block">
       <template is="dom-if" if="{{!add}}">
         <input type="checkbox" name="item" id="[[listid]]" >
-        <label for$="[[listid]]"  class$="[[activeclass]] selectorClass  [[normalclass]] [[ghostclass]]">[[value]]</label>
+        <label for$="[[listid]]"  class$="[[activeclass]] selectorClass  [[normalclass]] [[ghostclass]]">[[value]] &nbsp; &#x2228;</label> 
 
         </template>
         <ul class="options">

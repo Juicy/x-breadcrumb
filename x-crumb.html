@@ -400,7 +400,7 @@
     <li class="block">
       <template is="dom-if" if="{{!add}}">
         <input type="checkbox" name="item" id="[[listid]]" >
-        <label for$="[[listid]]"  class$="[[activeclass]]  [[normalclass]] [[ghostclass]]" on-tap="reinit">[[value]]</label>
+        <label for$="[[listid]]"  class$="[[activeclass]] selectorClass  [[normalclass]] [[ghostclass]]">[[value]]</label>
 
         </template>
         <ul class="options">
@@ -481,13 +481,15 @@
 
       },
       attached: function() {
-        
-      },
-      reinit: function() {
-        var checkboxes = this.parentElement.querySelectorAll('x-crumb input[type="checkbox"]');
-        for (var i = checkboxes.length - 1; i >= 0; i--) {
-          checkboxes[i].checked = false;
-        };
+        document.body.addEventListener('click',function(e){
+          console.log('clicked ',e.target.nodeName);
+          if(e.target.nodeName !== 'INPUT'){
+              var checkboxes = this.parentElement.querySelectorAll('x-crumb input[type="checkbox"]');
+              for (var i = checkboxes.length - 1; i >= 0; i--) {
+                checkboxes[i].checked = false;
+              };
+          }
+        });
       },
       ready: function() {
           if(this.ghost){

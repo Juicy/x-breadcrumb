@@ -30,6 +30,12 @@
       column-count: 5;
     }
 
+    #limheight-vertical {
+      -webkit-column-count: 1;
+      -moz-column-count: 1;
+      column-count: 1;
+    }
+
 
   .breadcrumbs {
     list-style: none;
@@ -42,7 +48,7 @@
     </style>
     <div>
       <div class="wrapper">
-        <ul id="limheight" class="breadcrumbs" style$="[[orientationStyle]]">
+        <ul id="limheight[[orientationStylePostfix]]" class="breadcrumbs" style$="[[orientationStyle]]">
           <content></content>
         </ul>
       </div>
@@ -64,9 +70,11 @@
       },
       attached: function() {
         if(this.orientation === 'vertical'){
-          this.orientationStyle ='display: inline-flex;';
-        }else{
           this.orientationStyle ='display: block;';
+          this.orientationStylePostfix ='-vertical';
+        }else{
+          this.orientationStyle ='display: inline-flex;';
+          this.orientationStylePostfix ='';
         }
       },
       value: function() {

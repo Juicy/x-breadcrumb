@@ -334,15 +334,7 @@
       content: "Open"
     }
     
-    ::content .addnewTypeDiv {
-      float: left;
-      margin-left: 2%;
-      position: relative;
-      margin-top: 5%;
-      z-index: 22;
-      background: rgb(156, 187, 246);
-      padding: 2%;
-    }
+    
     ::content .options {
       height: 0;
       background: #9CBBF6;
@@ -482,7 +474,7 @@
       },
       attached: function() {
         document.body.addEventListener('click',function(e){
-          console.log('clicked ',e.target.nodeName);
+          // console.log('clicked ',e.target.nodeName);
           if(e.target.nodeName !== 'INPUT'){
               var checkboxes = this.parentElement.querySelectorAll('x-crumb input[type="checkbox"]');
               for (var i = checkboxes.length - 1; i >= 0; i--) {

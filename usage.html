@@ -7,6 +7,8 @@
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <link rel="import" href="bower_components/polymer/polymer.html">
   <link rel="import" href="pim-x-element.html">
+  <link rel="import" href="pim-x-element-vertical.html">
+  
 </head>
 
 <body>
@@ -19,6 +21,14 @@
       on-after-type-add="{{afterAddHandler}}">
 
     </pim-x-element>
+    <pim-x-element-vertical id="pimEl" 
+      db="{{db}}" 
+      search-handler="{{searchHandler}}" 
+      sibling-click-handler="{{siblingClickHandler}}"
+      on-after-type-add="{{afterAddHandler}}">
+
+    </pim-x-element-vertical>
+    
   </template>
 </body>
 <script>

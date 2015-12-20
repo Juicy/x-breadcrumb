@@ -69,10 +69,12 @@ Attribute       | Options             | Default           | Description
 ## x-crumb
 Attribute       | Options             | Default           | Description
 ---             | ---                 | ---               | ---
-`value`   | *String*                  | 'horizontal'      | label of the option.
+`value`         | *String*                  | 'horizontal'      | label of the option.
 `dropdown`      | *boolean*           | `true`            | Should a searchable options list come up for this crumb
 `listid`        | *String*            | ``                | list id to be used
-
+`search-query`  | *String*            | ``                | Search query is used to filter the displayed list options
+`ghost`         | *boolean*           | `false`            | displayed as a ghost crumb
+`active`        | *boolean*           | `false`            | displayed as a active crumb , else normal crumb
 
 
 ## Contributing

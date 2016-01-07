@@ -4,292 +4,286 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <style type="text/css">
     pim-x-element-vertical {
-          top: 55%;
-    position: absolute;
-    left: 2%;
+        top: 55%;
+        position: absolute;
+        left: 2%;
     }
 
     .addnewTypeDiv {
-      float: left;
-      margin-left: 2%;
-      position: relative;
-      margin-top: 5%;
-      z-index: 22;
-      background: rgba(0,0,0,0.1);
-      padding: 2%;
-      width: 92%;
+        float: left;
+        margin-left: 2%;
+        position: relative;
+        margin-top: 5%;
+        z-index: 22;
+        background: rgba(0,0,0,0.1);
+        padding: 2%;
+        width: 92%;
     }
-
-
-  </style>
+</style>
 <dom-module id="pim-x-element">
-  <!--
-  This demo is explained in https://github.com/Juicy/x-breadcrumb/issues/6
-  -->
-  <template>
-    <style type="text/css">
-    </style>
-      <template is="dom-if" if="{{addTypeMode}}">
-        <div class="addnewTypeDiv">
-          <span><strong>You are adding '<span>{{parentCrumb.Product.Parent.Name}}</span>'</strong></span><br><br>
-          <span>
-          <input type="text" value="{{addedTypeVal::input}}"></span><br><br>
-          <span><button on-click="addClicked">Add</button></span>
-        </div>
-      </template>
-      <template is="dom-if" if="{{!addTypeMode}}">
-        <div class="addnewTypeDiv">
-          <span><strong>You are editing '<span>{{parentCrumb.Name}}</span>'</strong></span><br><br>
-          <span>
-          <input type="text" value="{{editedTypeVal::input}}"></span><br><br>
-          <span><button on-click="editClicked">Edit</button></span>
-        </div>
-      </template>
-    <!-- <x-breadcrumb orientation='vertical'>
-      <template is="dom-repeat" items="{{path}}" id="tmpl">
-        <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
-          <ul>
-            <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
-              <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
-            </template>
+    <!--
+    This demo is explained in https://github.com/Juicy/x-breadcrumb/issues/6
+    -->
+    <template>
+        <style type="text/css">
+        </style>
+        <template is="dom-if" if="{{addTypeMode}}">
+            <div class="addnewTypeDiv">
+                <span><strong>You are adding '<span>{{parentCrumb.Product.Parent.Name}}</span>'</strong></span><br><br>
+                <span>
+                    <input type="text" value="{{addedTypeVal::input}}">
+                </span><br><br>
+                <span><button on-click="addClicked">Add</button></span>
+            </div>
+        </template>
+        <template is="dom-if" if="{{!addTypeMode}}">
+            <div class="addnewTypeDiv">
+                <span><strong>You are editing '<span>{{parentCrumb.Name}}</span>'</strong></span><br><br>
+                <span>
+                    <input type="text" value="{{editedTypeVal::input}}">
+                </span><br><br>
+                <span><button on-click="editClicked">Edit</button></span>
+            </div>
+        </template>
+        <!-- <x-breadcrumb orientation='vertical'>
+          <template is="dom-repeat" items="{{path}}" id="tmpl">
+            <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
+              <ul>
+                <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
+                  <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
+                </template>
+                <ul>
+                  <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li>
+                </ul>
+              </ul>
+            </x-crumb>
+          </template>
+          <template is="dom-if" if="{{noItems}}">
             <ul>
-              <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li>
+              <li on-click="addClicked" crumb="{{item}}">Add a new type</li>
             </ul>
-          </ul>
-        </x-crumb>
-      </template>
-      <template is="dom-if" if="{{noItems}}">
-        <ul>
-          <li on-click="addClicked" crumb="{{item}}">Add a new type</li>
-        </ul>
-      </template>
-    </x-breadcrumb> -->
-    <x-breadcrumb orientation='horizontal'>
-      <template is="dom-repeat" items="{{path}}" id="tmpl">
-        <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
-          <ul>
-            <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
-              <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
+          </template>
+        </x-breadcrumb> -->
+        <x-breadcrumb orientation='horizontal'>
+            <template is="dom-repeat" items="{{path}}" id="tmpl">
+                <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
+                    <ul>
+                        <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
+                            <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
+                        </template>
+                        <ul>
+                            <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li>
+                        </ul>
+                    </ul>
+                </x-crumb>
             </template>
-            <ul>
-              <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li>
-            </ul>
-          </ul>
-        </x-crumb>
-      </template>
-      <template is="dom-if" if="{{noItems}}">
-        <ul>
-          <li on-click="addClicked" crumb="{{item}}">Add a new type</li>
-        </ul>
-      </template>
-    </x-breadcrumb>
-  </template>
-  <script>
-  (function() {
-    'use strict';
+            <template is="dom-if" if="{{noItems}}">
+                <ul>
+                    <li on-click="addClicked" crumb="{{item}}">Add a new type</li>
+                </ul>
+            </template>
+        </x-breadcrumb>
+    </template>
+    <script>
+        (function () {
+            'use strict';
 
+            Polymer({
+                is: 'pim-x-element',
 
+                properties: {
+                    path: {
+                        type: Array,
+                        value: []
+                    },
+                    db: {
+                        type: JSON,
+                        value: {
+                            Name: "Products",
+                            Children: []
+                        }
+                    },
+                    noItems: {
+                        type: Boolean,
+                        value: false
+                    },
+                    addTypeMode: {
+                        type: Boolean,
+                        value: false
+                    },
+                    editedTypeVal: {
+                        type: String,
+                        value: ""
+                    },
+                    searchHandler: {
+                        type: String,
+                        value: ""
+                    },
+                    siblingClickHandler: {
+                        type: String,
+                        value: ""
+                    },
+                    parentCrumb: {
+                        type: String,
+                        value: "",
+                        notify: true
+                    },
+                    onAfterTypeAdd: {
+                        type: String,
+                        value: ""
+                    }
+                },
 
+                _isAddTypeAllowed: function (parent) {
+                    return (parent)
+                },
 
+                addParentReference: function (parent) {
+                    for (var i = 0;
+                      (parent.Children && i < parent.Children.length) ; i++) {
+                        parent.Children[i].Parent = parent;
+                        if (parent.Children[i].Children) {
+                            this.addParentReference(parent.Children[i]);
+                        }
+                    }
+                },
 
+                findProductByName: function (db, name, parent) {
+                    if (!parent) {
+                        parent = db;
+                    }
+                    var found;
+                    for (var i = 0;
+                      (parent.Children && i < parent.Children.length) ; i++) {
+                        if (parent.Children[i].Name == name) {
+                            found = parent.Children[i];
+                        } else if (parent.Children[i].Children) {
+                            found = this.findProductByName(parent, name, parent.Children[i]);
+                        }
+                        if (found) {
+                            return found;
+                        }
+                    }
+                },
 
-    Polymer({
-      is: 'pim-x-element',
+                ready: function () {
+                    if (this.db && this.db.length == 0)
+                        this.noItems = true;
+                    else {
+                        this.addParentReference(this.db);
+                        this.parentCrumb = (this.db.Children && this.db.Children[0] && this.db.Children[0].Name);
+                        var product = this.findProductByName(this.db, this.parentCrumb);
+                        this.rebuildBreadcrumb(product);
+                    }
+                    console.log(this.parentCrumb.Name);
+                },
 
-      properties: {
-        path: {
-          type: Array,
-          value: []
-        },
-        db: {
-          type: JSON,
-          value: {
-            Name: "Products",
-            Children: []
-          }
-        },
-        noItems: {
-          type: Boolean,
-          value: false
-        },
-        addTypeMode: {
-          type: Boolean,
-          value: false
-        },
-        editedTypeVal: {
-          type: String,
-          value: ""
-        },
-        searchHandler: {
-          type: String,
-          value: ""
-        },
-        siblingClickHandler: {
-          type: String,
-          value: ""
-        },
-        parentCrumb: {
-          type: String,
-          value: "",
-          notify: true
-        },
-        onAfterTypeAdd: {
-          type: String,
-          value: ""
-        }
-      },
+                searchFilter: function (siblings, query) {
+                    if (this.searchHandler)
+                        return window[this.searchHandler](siblings, query); // TODO :: CHECK IF THIS IS HARDCODING
+                },
 
-      _isAddTypeAllowed: function(parent) {
-        return (parent)
-      },
+                siblingClicked: function (event) {
+                    if (this.siblingClickHandler) {
+                        return window[this.siblingClickHandler](this, event); // TODO :: CHECK IF THIS IS HARDCODING
+                    }
+                },
 
-      addParentReference: function(parent) {
-        for (var i = 0;
-          (parent.Children && i < parent.Children.length); i++) {
-          parent.Children[i].Parent = parent;
-          if (parent.Children[i].Children) {
-            this.addParentReference(parent.Children[i]);
-          }
-        }
-      },
+                addClicked: function () {
+                    // debugger;
+                    // ADD TO DATA, that REFLECTS
+                    this.parentCrumb.Product.Parent.Children.push({
+                        Name: this.addedTypeVal,
+                        Parent: this.parentCrumb.Product.Parent,
+                        Children: []
+                    });
 
-      findProductByName: function(db, name, parent) {
-        if (!parent) {
-          parent = db;
-        }
-        var found;
-        for (var i = 0;
-          (parent.Children && i < parent.Children.length); i++) {
-          if (parent.Children[i].Name == name) {
-            found = parent.Children[i];
-          } else if (parent.Children[i].Children) {
-            found = this.findProductByName(parent, name, parent.Children[i]);
-          }
-          if (found) {
-            return found;
-          }
-        }
-      },
+                    if (this.parentCrumb.Product && this.parentCrumb.Product.Parent) {
+                        this.rebuildBreadcrumb(this.parentCrumb.Product.Parent, true);
 
-      ready: function() {
-        if (this.db && this.db.length == 0)
-          this.noItems = true;
-        else {
-          this.addParentReference(this.db);
-          this.parentCrumb =  (this.db.Children && this.db.Children[0] && this.db.Children[0].Name);
-          var product = this.findProductByName(this.db,this.parentCrumb);
-          this.rebuildBreadcrumb(product);
-        }
-        console.log(this.parentCrumb.Name);
-      },
+                        this.afterAddingType(this.parentCrumb.Product.Parent, this.addedTypeVal);
+                        this.addTypeMode = false;
+                        this.addedTypeVal = '';
+                    }
+                },
 
-      searchFilter: function(siblings, query) {
-        if (this.searchHandler)
-          return window[this.searchHandler](siblings, query); // TODO :: CHECK IF THIS IS HARDCODING
-      },
+                editClicked: function () {
+                    // debugger;
+                    // ADD TO DATA, that REFLECTS
+                    this.addTypeMode = false;
+                    this.editTypeMode = true;
+                    this.parentCrumb.Name = this.editedTypeVal;
+                    this.rebuildBreadcrumb(this.parentCrumb, true);
+                    this.editTypeMode = false;
+                    //this.afterAddingType(this.parentCrumb.Parent, this.addedTypeVal);
+                },
 
-      siblingClicked: function(event) {
-        if (this.siblingClickHandler) {
-          return window[this.siblingClickHandler](this, event); // TODO :: CHECK IF THIS IS HARDCODING
-        }
-      },
+                showAddTypeScreen: function (event) {
+                    this.parentCrumb = event.target.crumb;
+                    this.addTypeMode = true;
+                },
 
-      addClicked: function() {
-        // debugger;
-        // ADD TO DATA, that REFLECTS
-        this.parentCrumb.Product.Parent.Children.push({
-          Name: this.addedTypeVal,
-          Parent: this.parentCrumb.Product.Parent,
-          Children: []
-        });
+                afterAddingType: function (parentToAdd, newTypeAdded) {
+                    if (this.onAfterTypeAdd) {
+                        return window[this.onAfterTypeAdd](this, parentToAdd, newTypeAdded); // TODO :: CHECK IF THIS IS HARDCODING
+                    }
+                },
 
-        if(this.parentCrumb.Product && this.parentCrumb.Product.Parent){
-          this.rebuildBreadcrumb(this.parentCrumb.Product.Parent, true);
+                rebuildBreadcrumb: function (product, isAdd) {
+                    //Since Prodcuts is a graph, and a breadcrumb is a flat structure,
+                    //I need an array to show a path to a product (e.g. "Milk"):
+                    // Food -- inactive, not ghost
+                    // Diary -- inactive, not ghost
+                    // Milk -- active, not ghost
+                    // 2 subtypes of milk - inactive, ghost
 
-          this.afterAddingType(this.parentCrumb.Product.Parent, this.addedTypeVal);
-          this.addTypeMode = false;
-          this.addedTypeVal = '';
-        }
-      },
-
-      editClicked: function() {
-        // debugger;
-        // ADD TO DATA, that REFLECTS
-        this.addTypeMode = false;
-        this.editTypeMode = true;
-        this.parentCrumb.Name = this.editedTypeVal;
-        this.rebuildBreadcrumb(this.parentCrumb, true);
-        this.editTypeMode = false;
-        //this.afterAddingType(this.parentCrumb.Parent, this.addedTypeVal);
-      },
-
-      showAddTypeScreen: function(event) {
-        this.parentCrumb = event.target.crumb;
-        this.addTypeMode = true;
-      },
-
-      afterAddingType: function(parentToAdd, newTypeAdded) {
-        if (this.onAfterTypeAdd) {
-          return window[this.onAfterTypeAdd](this, parentToAdd, newTypeAdded); // TODO :: CHECK IF THIS IS HARDCODING
-        }
-      },
-
-      rebuildBreadcrumb: function(product, isAdd) {
-        //Since Prodcuts is a graph, and a breadcrumb is a flat structure,
-        //I need an array to show a path to a product (e.g. "Milk"):
-        // Food -- inactive, not ghost
-        // Diary -- inactive, not ghost
-        // Milk -- active, not ghost
-        // 2 subtypes of milk - inactive, ghost
-
-        this.splice('path', 0, this.path.length);
-        var current;
-        if (product) {
-          if (isAdd) {
-            this.unshift('path', {
-              Product: {
-                Parent: product.Children[product.Children.length - 1]
-              },
-              Label: 0 + " sub types",
-              SearchQuery: "",
-              Siblings: product.Children,
-              IsGhost: false,
-              IsActive: true
+                    this.splice('path', 0, this.path.length);
+                    var current;
+                    if (product) {
+                        if (isAdd) {
+                            this.unshift('path', {
+                                Product: {
+                                    Parent: product.Children[product.Children.length - 1]
+                                },
+                                Label: 0 + " sub types",
+                                SearchQuery: "",
+                                Siblings: product.Children,
+                                IsGhost: false,
+                                IsActive: true
+                            });
+                            current = product.Children[product.Children.length - 1];
+                        } else {
+                            this.unshift('path', {
+                                Product: {
+                                    Parent: product
+                                },
+                                Label: product.Children.length + " sub types",
+                                SearchQuery: "",
+                                Siblings: product.Children,
+                                IsGhost: true,
+                                IsActive: false
+                            });
+                            current = product;
+                        }
+                        while (current && current.Name !== "Products") {
+                            this.unshift('path', {
+                                Product: current,
+                                Label: current.Name,
+                                SearchQuery: "",
+                                Siblings: (current.Parent && current.Parent.Children) || [],
+                                IsGhost: false,
+                                IsActive: (current == product && !isAdd),
+                            });
+                            current = current.Parent;
+                        }
+                        // debugger;
+                        this.parentCrumb = product;
+                        this.editedTypeVal = product.Name;
+                        this.current
+                        console.log("Breadcrumb path to", product.Name, this.path);
+                    }
+                }
             });
-            current = product.Children[product.Children.length - 1];
-          } else {
-            this.unshift('path', {
-              Product: {
-                Parent: product
-              },
-              Label: product.Children.length + " sub types",
-              SearchQuery: "",
-              Siblings: product.Children,
-              IsGhost: true,
-              IsActive: false
-            });
-            current = product;
-          }
-          while (current && current.Name !== "Products") {
-            this.unshift('path', {
-              Product: current,
-              Label: current.Name,
-              SearchQuery: "",
-              Siblings: (current.Parent && current.Parent.Children) || [],
-              IsGhost: false,
-              IsActive: (current == product && !isAdd),
-            });
-            current = current.Parent;
-          }
-          // debugger;
-          this.parentCrumb = product;
-          this.editedTypeVal = product.Name;
-          this.current
-          console.log("Breadcrumb path to", product.Name, this.path);
-        }
-
-      }
-    });
-  })();
-  </script>
+        })();
+    </script>
 </dom-module>

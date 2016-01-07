@@ -1,79 +1,69 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <dom-module id="x-breadcrumb">
-  <template>
-    <style>
-    :host {
-      display: block;
-      position: absolute;
-      margin-left: 2%;
-      z-index:111;
-    }
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: absolute;
+                margin-left: 2%;
+                z-index: 111;
+            }
 
-    /** {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-    }*/
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                margin: 0 auto;
+                /*height: 50px;*/
+            }
 
-    ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      margin: 0 auto;
-      /*height: 50px;*/
-    }
+            :host .breadcrumbs {
+                -webkit-column-count: 5;
+                -moz-column-count: 5;
+                column-count: 5;
+                display: inline-flex;
+            }
 
-    :host .breadcrumbs {
-      -webkit-column-count: 5;
-      -moz-column-count: 5;
-      column-count: 5;
-      display: inline-flex;
-    }
-
-    :host[orientation="vertical"] .breadcrumbs {
-      -webkit-column-count: 1;
-      -moz-column-count: 1;
-      column-count: 1;
-      display: block;
-    }
+            :host[orientation="vertical"] .breadcrumbs {
+                -webkit-column-count: 1;
+                -moz-column-count: 1;
+                column-count: 1;
+                display: block;
+            }
 
 
-  .breadcrumbs {
-    list-style: none;
-    overflow: hidden;
-  }
+            .breadcrumbs {
+                list-style: none;
+                overflow: hidden;
+            }
+        </style>
+        <div>
+            <div class="wrapper">
+                <ul class="breadcrumbs">
+                    <content></content>
+                </ul>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function () {
+            'use strict';
 
+            Polymer({
+                is: 'x-breadcrumb',
 
+                properties: {
+                    orientation: {
+                        type: String,
+                        value: '',
+                        notify: true
+                    }
+                },
+                value: function () {
 
-
-    </style>
-    <div>
-      <div class="wrapper">
-        <ul class="breadcrumbs">
-          <content></content>
-        </ul>
-      </div>
-    </div>
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'x-breadcrumb',
-
-      properties: {
-        orientation: {
-          type: String,
-          value: '',
-          notify: true
-        }
-      },
-      value: function() {
-
-      }
-    });
-  })();
-  </script>
+                }
+            });
+        })();
+    </script>
 </dom-module>

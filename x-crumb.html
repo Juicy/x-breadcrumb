@@ -1,409 +1,363 @@
 <link rel="import" href="../polymer/polymer.html">
 
 <dom-module id="x-crumb">
-  <template>
-    <style>
-    :host {
-      display: block;
-      max-height: 600px;
-    }
-
-
-
-
-
-    .button {
-      border: 1px solid #3d5b92;
-      background: #4d72b5;
-      color: #fff;
-      -webkit-font-smoothing: antialiased;
-      font-weight: bold;
-      padding: 0.3em .75em 0.4em;
-      line-height: 1;
-      -moz-border-radius: 2px;
-      -webkit-border-radius: 2px;
-      border-radius: 2px;
-      text-decoration: none;
-      -moz-transition-property: background-color;
-      -o-transition-property: background-color;
-      -webkit-transition-property: background-color;
-      transition-property: background-color;
-      -moz-transition-duration: 350ms;
-      -o-transition-duration: 350ms;
-      -webkit-transition-duration: 350ms;
-      transition-duration: 350ms;
-      -moz-transition-timing-function: ease-in-out;
-      -o-transition-timing-function: ease-in-out;
-      -webkit-transition-timing-function: ease-in-out;
-      transition-timing-function: ease-in-out;
-      cursor: pointer;
-      display: inline-block;
-    }
-
-    .button:hover {
-
-      text-decoration: none;
-    }
-
-    .btn-large {
-      padding: 1em;
-      text-align: center;
-    }
-
-    .btn-create:before {
-      content: "+";
-      padding-right: .5em;
-      font-weight: bold;
-    }
-
-    .btn-create.btn-large {
-      position: relative;
-      padding-left: 3em;
-      padding-right: 1.5em;
-    }
-
-    .btn-create.btn-large:before {
-      content: "+";
-      font-size: 2em;
-      position: absolute;
-      left: 16px;
-      left: 1rem;
-      top: 6.4px;
-      top: 0.4rem;
-    }
-
-    .button-dropdown {
-      position: relative;
-      display: inline-block;
-      padding-bottom: 15px;
-    }
-
-    .button-dropdown .btn-create {
-      -moz-border-radius: 3px 0 0 3px;
-      -webkit-border-radius: 3px;
-      border-radius: 3px 0 0 3px;
-    }
-
-    ::content .dropdown:hover {
-      display: block;
-    }
-
-
-
-  ::content li label{
-    margin-top: 2px;
-    margin-bottom: 2px;
-    color: white;
-    text-decoration: none;
-    padding: 10px 30px 10px 45px;
-    position: relative;
-    display: block;
-    /*float: left;*/
-    z-index: 1;
-
-  }
-
-  ::content li label:after {
-    content: " ";
-    display: block;
-    width: 90%;
-    height: 50%;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: -1;
-  }
-
-  ::content li label:before {
-    content: " ";
-    display: block;
-    width: 90%;
-    height: 50%;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    z-index: -1;
-  }
-
-  ::content li label:hover:after {
-    background: linear-gradient(to bottom, black, green);
-    -webkit-transform: skewX(35deg);
-    transform: skewX(35deg);
-  }
-
-  ::content li label:hover:before {
-    background: linear-gradient(to bottom, green, lightgreen);
-    -webkit-transform: skewX(-35deg);
-    transform: skewX(-35deg);
-  }
-
-  label[active] {
-    /*background: cadetblue;*/
-    background: rgba(53,122,232,0)
-  }
-  label[active]:before {
-    -webkit-transform: skewX(-35deg);
-    transform: skewX(-35deg);
-    background: rgba(31, 109, 255,0.4)
-  }
-
-  label[active]:after {
-    -webkit-transform: skewX(35deg);
-    transform: skewX(35deg);
-    /*background: cadetblue;*/
-    background: rgba(31, 109, 255,0.4)
-  }
-
-  label[ghost] {
-    background: rgba(128,128,128,0);
-  }
-  label[ghost]:before {
-    background: rgba(128,128,128,0.5);
-    -webkit-transform: skewX(-35deg);
-    transform: skewX(-35deg);
-  }
-
-  label[ghost]:after {
-    background: rgba(128,128,128,0.5);
-    -webkit-transform: skewX(35deg);
-    transform: skewX(35deg);
-  }
-
-
-  label {
-    background: rgba(128, 128, 128,0);
-  }
-  label:before {
-    background: rgba(128, 128, 128,1);
-    -webkit-transform: skewX(-35deg);
-    transform: skewX(-35deg);
-  }
-
-  label:after {
-    background: rgba(128, 128, 128,1);
-    -webkit-transform: skewX(35deg);
-    transform: skewX(35deg);
-  }
-
-
-
-    ::content li input[type='checkbox'] {
-      /*display: none;*/
-    }
-
-    ::content li label {
-      display: block;
-      /*padding: 12px;*/
-      /*width: 100%;*/
-      margin: 4px;
-      /*margin-right: 200px;*/
-    }
-
-    ::content ul li {
-      display: block;
-      width: 100%;
-      margin: 4px;
-    }
-    /*
-
-    ::content ul li i {
-      font-size: 18px;
-      vertical-align: middle;
-      width: 20px;
-      display: inline-block;
-    }
-    */
-
-    ::content ul li label:hover {
-      background: #566f82;
-      /* fallback colour */
-      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#566f82), to(#3e505e));
-      background: -webkit-linear-gradient(top, #566f82, #3e505e);
-      background: -moz-linear-gradient(top, #566f82, #3e505e);
-      background: -ms-linear-gradient(top, #566f82, #3e505e);
-      background: -o-linear-gradient(top, #566f82, #3e505e);
-    }
-
-    :host[expanded] .options {
-      height: auto;
-      display: block;
-      min-height: 40px;
-      max-height: 400px;
-    }
-
-    ::content ul ul {
-      /*background: #92AAE1;*/
-      color: white;
-      margin: 0;
-      padding: 0;
-
-    }
-
-    ::content ul ul li a {
-      display: block;
-      padding: 6px 12px;
-      color: #999;
-      text-decoration: none;
-    }
-
-    ::content ul ul li a:hover {
-      color: #44c6eb;
-    }
-
-    ::content ul ul li {
-      border-bottom: 1px solid #ccc;
-    }
-
-    ::content ul ul li:first-child {
-      padding-top: 6px;
-    }
-
-    ::content ul ul li:last-child {
-      padding-bottom: 6px;
-      border: 0;
-    }
-
-    ::content .options {
-      height: 0;
-      /*background: #9CBBF6;*/
-      background:rgba(128, 128, 128,0.5);
-      /*color: rgb(255, 255, 255);*/
-      position: relative;
-      display: none;
-      /*left: 4px;*/
-      width: 90%;
-      height: 250px;
-      padding: 20px;
-      transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
-      overflow: hidden;
-      box-sizing: border-box;
-    }
-
-    .search {
-      width: 100%;
-      text-align: center;
-      padding: 5px;
-      font-size: smaller;
-    }
-
-    .add {
-      background: rgb(68, 198, 235);
-      border-top: 1px solid rgb(135, 142, 152);
-      border-bottom: 1px solid rgb(39, 153, 219);
-      background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(68, 198, 235)), to(rgb(39, 153, 219)));
-      background: -webkit-linear-gradient(top, rgb(68, 198, 235), rgb(39, 153, 219));
-      background: -moz-linear-gradient(top, #44c6eb, #2799db);
-      background: -ms-linear-gradient(top, #44c6eb, #2799db);
-      background: -o-linear-gradient(top, #44c6eb, #2799db);
-      padding: 12px;
-      width: 100%;
-      position: relative;
-    }
-
-    ::content li {
-      display: inline-block;
-      width: 300px;
-    }
-
-    ::content li ul {
-      display: block;
-      width: 100%;
-    }
-
-    ::content li ul li {
-      display: block;
-      width: 100%;
-    }
-
-
-
-    </style>
-    <li class="block">
-      <template is="dom-if" if="{{!add}}">
-        <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown"><span>[[value]]</span> &nbsp; &#x2228;</label>
-
-        </template>
-        <ul class="options">
-          <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
-          <content></content>
-        </ul>
-      </template>
-      <template is="dom-if" if="{{add}}">
-        <li><label class="fa fa-plus">Add</label></li>
-      </template>
-    </li>
-    <!--
-      <li><a href="#">Home</a></li>
-      <li><a href="#">Vehicles</a></li>
-      <li><a href="#">Vans</a></li>
-      <li><a href="#">Camper Vans</a></li>
-      <li><a href="#">1989 VW Westfalia Vanagon</a></li> -->
-
-  </template>
-  <script>
-  (function() {
-    'use strict';
-
-    Polymer({
-      is: 'x-crumb',
-
-      properties: {
-        dropdown: {
-          type: Boolean,
-          value: true,
-          notify: true
-        },
-        expanded: {
-          type: Boolean,
-          value: false,
-          notify: true,
-          reflectToAttribute: true
-        },
-        ghost: {
-          type: Boolean,
-          value: false,
-          notify: true
-        },
-        active: {
-          type: Boolean,
-          value: false,
-          notify: true
-        },
-        searchQuery: {
-          type: String,
-          value: "",
-          notify: true
-        },
-        alloptions: {
-          type: Array,
-          value: [],
-          notify: true
-        },
-        add: {
-          type: Boolean,
-          value: false,
-          notify: true
-        }
-      },
-      attached: function() {
-        var that = this;
-        document.body.addEventListener('click',function(e){
-          var parent = e.target;
-          while(parent) {
-            if (parent == that) {
-              return; //clicked inside
+    <template>
+        <style>
+            :host {
+                display: block;
+                max-height: 600px;
             }
-            parent = parent.parentNode;
-          }
-          //clicked outside; collapse this
-          that.expanded = false;
-        });
-      },
-      expandDropdown: function () {
-        this.expanded = true;
-      },
-      value: function() {}
-    });
-  })();
-  </script>
+
+            .button {
+                border: 1px solid #3d5b92;
+                background: #4d72b5;
+                color: #fff;
+                -webkit-font-smoothing: antialiased;
+                font-weight: bold;
+                padding: 0.3em .75em 0.4em;
+                line-height: 1;
+                -moz-border-radius: 2px;
+                -webkit-border-radius: 2px;
+                border-radius: 2px;
+                text-decoration: none;
+                -moz-transition-property: background-color;
+                -o-transition-property: background-color;
+                -webkit-transition-property: background-color;
+                transition-property: background-color;
+                -moz-transition-duration: 350ms;
+                -o-transition-duration: 350ms;
+                -webkit-transition-duration: 350ms;
+                transition-duration: 350ms;
+                -moz-transition-timing-function: ease-in-out;
+                -o-transition-timing-function: ease-in-out;
+                -webkit-transition-timing-function: ease-in-out;
+                transition-timing-function: ease-in-out;
+                cursor: pointer;
+                display: inline-block;
+            }
+
+            .button:hover {
+                text-decoration: none;
+            }
+
+            .btn-large {
+                padding: 1em;
+                text-align: center;
+            }
+
+            .btn-create:before {
+                content: "+";
+                padding-right: .5em;
+                font-weight: bold;
+            }
+
+            .btn-create.btn-large {
+                position: relative;
+                padding-left: 3em;
+                padding-right: 1.5em;
+            }
+
+            .btn-create.btn-large:before {
+                content: "+";
+                font-size: 2em;
+                position: absolute;
+                left: 16px;
+                left: 1rem;
+                top: 6.4px;
+                top: 0.4rem;
+            }
+
+            .button-dropdown {
+                position: relative;
+                display: inline-block;
+                padding-bottom: 15px;
+            }
+
+            .button-dropdown .btn-create {
+                -moz-border-radius: 3px 0 0 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px 0 0 3px;
+            }
+
+            ::content .dropdown:hover {
+                display: block;
+            }
+
+
+
+            ::content li label {
+                margin-top: 2px;
+                margin-bottom: 2px;
+                color: white;
+                text-decoration: none;
+                padding: 10px 30px 10px 45px;
+                position: relative;
+                display: block;
+                /*float: left;*/
+                z-index: 1;
+            }
+
+            ::content li label:after {
+                content: " ";
+                display: block;
+                width: 90%;
+                height: 50%;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                z-index: -1;
+            }
+
+            ::content li label:before {
+                content: " ";
+                display: block;
+                width: 90%;
+                height: 50%;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                z-index: -1;
+            }
+
+            ::content li label:hover:after {
+                background: linear-gradient(to bottom, black, green);
+                -webkit-transform: skewX(35deg);
+                transform: skewX(35deg);
+            }
+
+            ::content li label:hover:before {
+                background: linear-gradient(to bottom, green, lightgreen);
+                -webkit-transform: skewX(-35deg);
+                transform: skewX(-35deg);
+            }
+
+            label[active] {
+                background: rgba(53,122,232,0);
+            }
+
+            label[active]:before {
+                -webkit-transform: skewX(-35deg);
+                transform: skewX(-35deg);
+                background: rgba(31, 109, 255,0.4);
+            }
+
+            label[active]:after {
+                -webkit-transform: skewX(35deg);
+                transform: skewX(35deg);
+                background: rgba(31, 109, 255,0.4);
+            }
+
+            label[ghost] {
+                background: rgba(128,128,128,0);
+            }
+
+            label[ghost]:before {
+                background: rgba(128,128,128,0.5);
+                -webkit-transform: skewX(-35deg);
+                transform: skewX(-35deg);
+            }
+
+            label[ghost]:after {
+                background: rgba(128,128,128,0.5);
+                -webkit-transform: skewX(35deg);
+                transform: skewX(35deg);
+            }
+
+
+            label {
+                background: rgba(128, 128, 128,0);
+            }
+
+            label:before {
+                background: rgba(128, 128, 128,1);
+                -webkit-transform: skewX(-35deg);
+                transform: skewX(-35deg);
+            }
+
+            label:after {
+                background: rgba(128, 128, 128,1);
+                -webkit-transform: skewX(35deg);
+                transform: skewX(35deg);
+            }
+
+            ::content li label {
+                display: block;
+                margin: 4px;
+            }
+
+            ::content ul li {
+                display: block;
+                width: 100%;
+                margin: 4px;
+            }
+
+            ::content ul li label:hover {
+                background: #566f82;
+                background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#566f82), to(#3e505e));
+                background: -webkit-linear-gradient(top, #566f82, #3e505e);
+                background: -moz-linear-gradient(top, #566f82, #3e505e);
+                background: -ms-linear-gradient(top, #566f82, #3e505e);
+                background: -o-linear-gradient(top, #566f82, #3e505e);
+            }
+
+            :host[expanded] .options {
+                height: auto;
+                display: block;
+                min-height: 40px;
+                max-height: 400px;
+            }
+
+            ::content ul ul {
+                color: white;
+                margin: 0;
+                padding: 0;
+            }
+
+            ::content ul ul li a {
+                display: block;
+                padding: 6px 12px;
+                color: #999;
+                text-decoration: none;
+            }
+
+            ::content ul ul li a:hover {
+                color: #44c6eb;
+            }
+
+            ::content ul ul li {
+                border-bottom: 1px solid #ccc;
+            }
+
+            ::content ul ul li:first-child {
+                padding-top: 6px;
+            }
+
+            ::content ul ul li:last-child {
+                padding-bottom: 6px;
+                border: 0;
+            }
+
+            ::content .options {
+                height: 0;
+                background: rgba(128, 128, 128,0.5);
+                position: relative;
+                display: none;
+                width: 90%;
+                height: 250px;
+                padding: 20px;
+                transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+                overflow: hidden;
+                box-sizing: border-box;
+            }
+
+            .search {
+                width: 100%;
+                text-align: center;
+                padding: 5px;
+                font-size: smaller;
+            }
+
+            .add {
+                background: rgb(68, 198, 235);
+                border-top: 1px solid rgb(135, 142, 152);
+                border-bottom: 1px solid rgb(39, 153, 219);
+                background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(68, 198, 235)), to(rgb(39, 153, 219)));
+                background: -webkit-linear-gradient(top, rgb(68, 198, 235), rgb(39, 153, 219));
+                background: -moz-linear-gradient(top, #44c6eb, #2799db);
+                background: -ms-linear-gradient(top, #44c6eb, #2799db);
+                background: -o-linear-gradient(top, #44c6eb, #2799db);
+                padding: 12px;
+                width: 100%;
+                position: relative;
+            }
+
+            ::content li {
+                display: inline-block;
+                width: 300px;
+            }
+
+            ::content li ul {
+                display: block;
+                width: 100%;
+            }
+
+            ::content li ul li {
+                display: block;
+                width: 100%;
+            }
+        </style>
+        <li class="block">
+            <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown"><span>[[value]]</span> &nbsp; &#x2228;</label>
+            <div class="options">
+                <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
+                <content></content>
+            </div>
+        </li>
+    </template>
+    <script>
+        (function () {
+            'use strict';
+
+            Polymer({
+                is: 'x-crumb',
+
+                properties: {
+                    dropdown: {
+                        type: Boolean,
+                        value: true,
+                        notify: true
+                    },
+                    expanded: {
+                        type: Boolean,
+                        value: false,
+                        notify: true,
+                        reflectToAttribute: true
+                    },
+                    ghost: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    active: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    },
+                    searchQuery: {
+                        type: String,
+                        value: "",
+                        notify: true
+                    },
+                    alloptions: {
+                        type: Array,
+                        value: [],
+                        notify: true
+                    },
+                    add: {
+                        type: Boolean,
+                        value: false,
+                        notify: true
+                    }
+                },
+                attached: function () {
+                    var that = this;
+                    document.body.addEventListener("click", function (e) {
+                        var parent = e.target;
+                        while (parent) {
+                            if (parent == that) {
+                                return;
+                            }
+                            parent = parent.parentNode;
+                        }
+
+                        that.expanded = false;
+                    });
+                },
+                expandDropdown: function () {
+                    this.expanded = true;
+                },
+                value: function () { }
+            });
+        })();
+    </script>
 </dom-module>

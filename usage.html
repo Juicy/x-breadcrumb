@@ -1,127 +1,112 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
 <!-- TODO :: MAKE STYLE OF COMPONENTES ALSO PASSABLE AS ATTRIBTES ? -->
 <head>
-  <meta charset="utf-8">
-  <title>PIM Demo</title>
-  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="../polymer/polymer.html">
-  <link rel="import" href="pim-x-element.html">
-  <link rel="import" href="pim-x-element-vertical.html">
-
+    <meta charset="utf-8">
+    <title>PIM Demo</title>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../polymer/polymer.html" />
+    <link rel="import" href="pim-x-element.html" />
+    <link rel="import" href="pim-x-element-vertical.html" />
 </head>
-
 <body>
-  <!-- initial state screen -->
-  <template id="pixEl" is="dom-bind">
-    <pim-x-element id="pimEl"
-      db="{{db}}"
-      search-handler="{{searchHandler}}"
-      sibling-click-handler="{{siblingClickHandler}}"
-      on-after-type-add="{{afterAddHandler}}">
+    <!-- initial state screen -->
+    <template id="pixEl" is="dom-bind">
+        <pim-x-element id="pimEl" db="{{db}}" search-handler="{{searchHandler}}"
+                       sibling-click-handler="{{siblingClickHandler}}" on-after-type-add="{{afterAddHandler}}">
+        </pim-x-element>
+        <pim-x-element-vertical id="pimEl" db="{{db}}" search-handler="{{searchHandler}}"
+                                sibling-click-handler="{{siblingClickHandler}}" on-after-type-add="{{afterAddHandler}}">
+        </pim-x-element-vertical>
+    </template>
+    <script>
+        var startingDb = {
+            Name: "Products",
+            Children: [{
+                Name: "Food",
+                Children: [{
+                    Name: "Dairy",
+                    Children: [{
+                        Name: "Milk",
+                        Children: [{
+                            Name: "Coffee milk 5 ML",
+                            Children: []
+                        }, {
+                            Name: "Milk 1 L",
+                            Children: []
+                        }]
+                    }]
+                }, {
+                    Name: "Meat",
+                    Children: []
+                }]
+            }, {
+                Name: "Metal",
+                Children: [{
+                    Name: "Screws",
+                    Children: [{
+                        Name: "Phillips flat head",
+                        Children: []
+                    }]
+                }]
+            }, {
+                Name: "Laundry",
+                Children: [{
+                    Name: "Detergent",
+                    Children: [{
+                        Name: "Tide",
+                        Children: []
+                    }, {
+                        Name: "Surf",
+                        Children: []
+                    }, {
+                        Name: "Areal",
+                        Children: [{
+                            Name: "Super",
+                            Children: []
+                        }, {
+                            Name: "Ultra",
+                            Children: []
+                        }]
+                    }]
+                }]
+            }]
+        };
 
-    </pim-x-element>
-    <pim-x-element-vertical id="pimEl"
-      db="{{db}}"
-      search-handler="{{searchHandler}}"
-      sibling-click-handler="{{siblingClickHandler}}"
-      on-after-type-add="{{afterAddHandler}}">
+        var onSearch = function (siblings, query) {
+            console.log(' on search logic called ');
+            var out = [];
+            var re = new RegExp("^" + query, "i");
+            for (var i = siblings.length - 1; i >= 0; i--) {
+                if (re.test(siblings[i].Name) == true) {
+                    out.push(siblings[i]);
+                }
+            }
+            console.log("search result for", query, out);
+            return out;
+        }
 
-    </pim-x-element-vertical>
+        var onSiblingClick = function ($this, event) {
+            var sibling = event.target.sibling;
+            var product = $this.findProductByName(sibling.Parent, sibling.Name);
+            $this.rebuildBreadcrumb(product);
+        }
 
-  </template>
+        var afterAddHandler = function ($this, parentToAdd, newTypeAdded) {
+            console.log(' onAfterTypeAdd  called');
+            // TODO :: HANDLE UPDATING ADDED TYPE TO BACKEND FROM HERE
+        }
+
+        document.addEventListener('DOMContentLoaded', function (e) {
+            // associate data for the breadcrumbs
+            document.querySelector('#pixEl').db = startingDb;
+
+            // associate searchCritirea behaviour
+            document.querySelector('#pixEl').searchHandler = "onSearch";
+            document.querySelector('#pixEl').siblingClickHandler = "onSiblingClick";
+            document.querySelector('#pixEl').afterAddHandler = "afterAddHandler";
+
+        });
+    </script>
 </body>
-<script>
-var startingDb = {
-  Name: "Products",
-  Children: [{
-    Name: "Food",
-    Children: [{
-      Name: "Dairy",
-      Children: [{
-        Name: "Milk",
-        Children: [{
-          Name: "Coffee milk 5 ML",
-          Children: []
-        }, {
-          Name: "Milk 1 L",
-          Children: []
-        }]
-      }]
-    }, {
-      Name: "Meat",
-      Children: []
-    }]
-  }, {
-    Name: "Metal",
-    Children: [{
-      Name: "Screws",
-      Children: [{
-        Name: "Phillips flat head",
-        Children: []
-      }]
-    }]
-  }, {
-    Name: "Laundry",
-    Children: [{
-      Name: "Detergent",
-      Children: [{
-        Name: "Tide",
-        Children: []
-      }, {
-        Name: "Surf",
-        Children: []
-      }, {
-        Name: "Areal",
-        Children: [{
-          Name: "Super",
-          Children: []
-        }, {
-          Name: "Ultra",
-          Children: []
-        }]
-      }]
-    }]
-  }]
-};
-
-var onSearch = function(siblings, query) {
-  console.log(' on search logic called ');
-  var out = [];
-  var re = new RegExp("^" + query, "i");
-  for (var i = siblings.length - 1; i >= 0; i--) {
-    if (re.test(siblings[i].Name) == true) {
-      out.push(siblings[i]);
-    }
-  }
-  console.log("search result for", query, out);
-  return out;
-}
-
-var onSiblingClick = function($this,event){
-  var sibling = event.target.sibling;
-  var product = $this.findProductByName(sibling.Parent, sibling.Name);
-  $this.rebuildBreadcrumb(product);
-}
-
-var afterAddHandler = function($this,parentToAdd,newTypeAdded){
-  console.log(' onAfterTypeAdd  called');
-  // TODO :: HANDLE UPDATING ADDED TYPE TO BACKEND FROM HERE
-}
-
-document.addEventListener('DOMContentLoaded', function(e) {
-  // associate data for the breadcrumbs
-  document.querySelector('#pixEl').db = startingDb;
-
-  // associate searchCritirea behaviour
-  document.querySelector('#pixEl').searchHandler  = "onSearch";
-  document.querySelector('#pixEl').siblingClickHandler  = "onSiblingClick";
-  document.querySelector('#pixEl').afterAddHandler = "afterAddHandler";
-
-});
-
-
-
-</script>
-
 </html>

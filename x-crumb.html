@@ -207,10 +207,10 @@
                 max-height: 400px;
             }
         </style>
-        <li class="block" on-mouseover="onItemHover" on-mouseout="onItemBlur">
-            <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown"><span>[[value]]</span> &nbsp; &#x2228;</label>
+        <li class="block">
+            <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown" on-mouseover="onItemHover" on-mouseout="onItemBlur"><span>[[value]]</span> &nbsp; &#x2228;</label>
             <div class="options" expanded$="[[expanded]]">
-                <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
+                <input on-click="preventCollapse" type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
                 <content></content>
             </div>
         </li>
@@ -271,6 +271,9 @@
                             this.set("expanded", false);
                         }.bind(this), 100);
                     }.bind(this));
+                },
+                preventCollapse: function(ev) {
+                    ev.stopPropagation();
                 },
                 expandDropdown: function (e) {
                     this.set("expanded", true);

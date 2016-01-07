@@ -137,49 +137,49 @@
     transform: skewX(-35deg);
   }
 
-  .activecrumb {
+  label[active] {
     /*background: cadetblue;*/
     background: rgba(53,122,232,0)
   }
-  .activecrumb:before {
+  label[active]:before {
     -webkit-transform: skewX(-35deg);
     transform: skewX(-35deg);
     background: rgba(31, 109, 255,0.4)
   }
 
-  .activecrumb:after {
+  label[active]:after {
     -webkit-transform: skewX(35deg);
     transform: skewX(35deg);
     /*background: cadetblue;*/
     background: rgba(31, 109, 255,0.4)
   }
 
-  .ghostclass {
+  label[ghost] {
     background: rgba(128,128,128,0);
   }
-  .ghostclass:before {
+  label[ghost]:before {
     background: rgba(128,128,128,0.5);
     -webkit-transform: skewX(-35deg);
     transform: skewX(-35deg);
   }
 
-  .ghostclass:after {
+  label[ghost]:after {
     background: rgba(128,128,128,0.5);
     -webkit-transform: skewX(35deg);
     transform: skewX(35deg);
   }
 
 
-  .normalclass {
+  label {
     background: rgba(128, 128, 128,0);
   }
-  .normalclass:before {
+  label:before {
     background: rgba(128, 128, 128,1);
     -webkit-transform: skewX(-35deg);
     transform: skewX(-35deg);
   }
 
-  .normalclass:after {
+  label:after {
     background: rgba(128, 128, 128,1);
     -webkit-transform: skewX(35deg);
     transform: skewX(35deg);
@@ -214,22 +214,6 @@
     }
     */
 
-    ::content ul li span {
-      display: inline;
-      float: right;
-      background: #4D90FE;
-      border: 1px solid #3c434c;
-      border-bottom: 1px solid #707781;
-      padding: 4px 6px;
-      font-size: 10px;
-      -moz-border-radius: 12px;
-      border-radius: 12px;
-      -moz-box-shadow: inset 0 0 10px #111;
-      -webkit-box-shadow: inset 0 0 10px #111;
-      box-shadow: inner 0 0 10px #111;
-      position: relative;
-    }
-
     ::content ul li label:hover {
       background: #566f82;
       /* fallback colour */
@@ -240,10 +224,6 @@
       background: -o-linear-gradient(top, #566f82, #3e505e);
     }
 
-    ::content ul li label a:hover span {
-      background: #3e505e;
-    }
-
     ::content li input[type='checkbox'] {
       position: relative;
       float: right;
@@ -251,18 +231,6 @@
       margin-right: 12px;
       top: 30px;
       z-index: 12;
-    }
-
-
-
-    ::content li input[type='checkbox']:checked ~ label span {
-      background: #92AAE1;
-      /* fallback colour */
-      border-top: 1px solid #1b5f85;
-      border-bottom: 1px solid #4cb1e4;
-      -moz-box-shadow: inset 0 0 5px #111;
-      -webkit-box-shadow: inset 0 0 5px #111;
-      box-shadow: inner 0 0 5px #111;
     }
 
     ::content li input[type='checkbox']:checked ~ .options {
@@ -290,15 +258,6 @@
 
     ::content ul ul li a:hover {
       color: #44c6eb;
-    }
-
-    ::content ul ul li a span {
-      color: #999;
-      background: none;
-      border: 1px solid #ccc;
-      -moz-box-shadow: none;
-      -webkit-box-shadow: none;
-      box-shadow: none;
     }
 
     ::content ul ul li {
@@ -374,17 +333,17 @@
       position: relative;
     }
 
-    #limheight::content li {
+    ::content li {
       display: inline-block;
       width: 300px;
     }
 
-    #limheight::content li ul {
+    ::content li ul {
       display: block;
       width: 100%;
     }
 
-    #limheight::content li ul li {
+    ::content li ul li {
       display: block;
       width: 100%;
     }
@@ -395,7 +354,7 @@
     <li class="block">
       <template is="dom-if" if="{{!add}}">
         <input type="checkbox" name="item" id="[[listid]]" >
-        <label for$="[[listid]]"  class$="[[activeclass]] selectorClass  [[normalclass]] [[ghostclass]]">[[value]] &nbsp; &#x2228;</label>
+        <label for$="[[listid]]" active$="[[active]]" ghost$="[[ghost]]"><span>[[value]]</span> &nbsp; &#x2228;</label>
 
         </template>
         <ul class="options">
@@ -457,23 +416,7 @@
           type: String,
           value: '',
           notify: true
-        },
-        ghostclass: {
-          type: String,
-          value: '',
-          notify: true
-        },
-        activeclass: {
-          type: String,
-          value: '',
-          notify: true
-        },
-        normalclass: {
-          type: String,
-          value: '',
-          notify: true
         }
-
       },
       attached: function() {
         document.body.addEventListener('click',function(e){
@@ -485,17 +428,6 @@
               };
           }
         });
-      },
-      ready: function() {
-          if(this.ghost){
-            this.ghostclass = 'ghostclass';
-          }else{
-            if(!this.active){
-              this.normalclass = 'normalclass';
-            }else{
-              this.activeclass = 'activecrumb';
-            }
-        }
       },
       value: function() {}
     });

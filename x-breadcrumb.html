@@ -24,16 +24,18 @@
       /*height: 50px;*/
     }
 
-    #limheight {
+    :host .breadcrumbs {
       -webkit-column-count: 5;
       -moz-column-count: 5;
       column-count: 5;
+      display: inline-flex;
     }
 
-    #limheight-vertical {
+    :host[orientation="vertical"] .breadcrumbs {
       -webkit-column-count: 1;
       -moz-column-count: 1;
       column-count: 1;
+      display: block;
     }
 
 
@@ -48,7 +50,7 @@
     </style>
     <div>
       <div class="wrapper">
-        <ul id="limheight[[orientationStylePostfix]]" class="breadcrumbs" style$="[[orientationStyle]]">
+        <ul class="breadcrumbs">
           <content></content>
         </ul>
       </div>
@@ -66,15 +68,6 @@
           type: String,
           value: '',
           notify: true
-        }
-      },
-      attached: function() {
-        if(this.orientation === 'vertical'){
-          this.orientationStyle ='display: block;';
-          this.orientationStylePostfix ='-vertical';
-        }else{
-          this.orientationStyle ='display: inline-flex;';
-          this.orientationStylePostfix ='';
         }
       },
       value: function() {

@@ -224,21 +224,11 @@
       background: -o-linear-gradient(top, #566f82, #3e505e);
     }
 
-    ::content li input[type='checkbox'] {
-      position: relative;
-      float: right;
-      display: none;
-      margin-right: 12px;
-      top: 30px;
-      z-index: 12;
-    }
-
-    ::content li input[type='checkbox']:checked ~ .options {
+    :host[expanded] .options {
       height: auto;
       display: block;
       min-height: 40px;
       max-height: 400px;
-
     }
 
     ::content ul ul {
@@ -272,29 +262,6 @@
       padding-bottom: 6px;
       border: 0;
     }
-
-    ::content #[[listid]] + label {
-      position: absolute;
-      cursor: pointer;
-      padding: 10px;
-      background: #26ae90;
-      width: 100px;
-      border-radius: 3px;
-      padding: 8px 10px;
-      color: #FFF;
-      line-height: 20px;
-      font-size: 12px;
-      text-align: center;
-      -webkit-font-smoothing: antialiased;
-      cursor: pointer;
-      margin: 20px 50px;
-      transition: all 500ms ease;
-    }
-
-    ::content #[[listid]] + label:after {
-      content: "Open"
-    }
-
 
     ::content .options {
       height: 0;
@@ -353,8 +320,7 @@
     </style>
     <li class="block">
       <template is="dom-if" if="{{!add}}">
-        <input type="checkbox" name="item" id="[[listid]]" >
-        <label for$="[[listid]]" active$="[[active]]" ghost$="[[ghost]]"><span>[[value]]</span> &nbsp; &#x2228;</label>
+        <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown"><span>[[value]]</span> &nbsp; &#x2228;</label>
 
         </template>
         <ul class="options">
@@ -387,6 +353,12 @@
           value: true,
           notify: true
         },
+        expanded: {
+          type: Boolean,
+          value: false,
+          notify: true,
+          reflectToAttribute: true
+        },
         ghost: {
           type: Boolean,
           value: false,
@@ -411,23 +383,24 @@
           type: Boolean,
           value: false,
           notify: true
-        },
-        listid: {
-          type: String,
-          value: '',
-          notify: true
         }
       },
       attached: function() {
+        var that = this;
         document.body.addEventListener('click',function(e){
-          // console.log('clicked ',e.target.nodeName);
-          if(e.target.nodeName !== 'INPUT'){
-              var checkboxes = this.parentElement.querySelectorAll('x-crumb input[type="checkbox"]');
-              for (var i = checkboxes.length - 1; i >= 0; i--) {
-                checkboxes[i].checked = false;
-              };
+          var parent = e.target;
+          while(parent) {
+            if (parent == that) {
+              return; //clicked inside
+            }
+            parent = parent.parentNode;
           }
+          //clicked outside; collapse this
+          that.expanded = false;
         });
+      },
+      expandDropdown: function () {
+        this.expanded = true;
       },
       value: function() {}
     });

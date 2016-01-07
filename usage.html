@@ -4,31 +4,31 @@
 <head>
   <meta charset="utf-8">
   <title>PIM Demo</title>
-  <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-  <link rel="import" href="bower_components/polymer/polymer.html">
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../polymer/polymer.html">
   <link rel="import" href="pim-x-element.html">
   <link rel="import" href="pim-x-element-vertical.html">
-  
+
 </head>
 
 <body>
   <!-- initial state screen -->
   <template id="pixEl" is="dom-bind">
-    <pim-x-element id="pimEl" 
-      db="{{db}}" 
-      search-handler="{{searchHandler}}" 
+    <pim-x-element id="pimEl"
+      db="{{db}}"
+      search-handler="{{searchHandler}}"
       sibling-click-handler="{{siblingClickHandler}}"
       on-after-type-add="{{afterAddHandler}}">
 
     </pim-x-element>
-    <pim-x-element-vertical id="pimEl" 
-      db="{{db}}" 
-      search-handler="{{searchHandler}}" 
+    <pim-x-element-vertical id="pimEl"
+      db="{{db}}"
+      search-handler="{{searchHandler}}"
       sibling-click-handler="{{siblingClickHandler}}"
       on-after-type-add="{{afterAddHandler}}">
 
     </pim-x-element-vertical>
-    
+
   </template>
 </body>
 <script>
@@ -117,11 +117,11 @@ document.addEventListener('DOMContentLoaded', function(e) {
   document.querySelector('#pixEl').searchHandler  = "onSearch";
   document.querySelector('#pixEl').siblingClickHandler  = "onSiblingClick";
   document.querySelector('#pixEl').afterAddHandler = "afterAddHandler";
-  
+
 });
 
 
-  
+
 </script>
 
 </html>

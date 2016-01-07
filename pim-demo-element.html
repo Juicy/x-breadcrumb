@@ -1,4 +1,4 @@
-
+<link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="x-breadcrumb.html">
 <link rel="import" href="x-crumb.html">
 
@@ -10,14 +10,14 @@
   <template>
     <x-breadcrumb orientation='vertical'>
       <template is="dom-repeat" items="{{path}}" id="tmpl">
-        <x-crumb 
-          ghost="false" 
-          value="{{item.Label}}" 
-          search-query="{{item.SearchQuery}}" 
-          item="{{item}}" 
-          dropdown="true" 
-          active$="{{item.IsActive}}" 
-          ghost$="{{item.IsGhost}}" 
+        <x-crumb
+          ghost="false"
+          value="{{item.Label}}"
+          search-query="{{item.SearchQuery}}"
+          item="{{item}}"
+          dropdown="true"
+          active$="{{item.IsActive}}"
+          ghost$="{{item.IsGhost}}"
           listid="tmpl-[[index]]">
           <ul>
             <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">

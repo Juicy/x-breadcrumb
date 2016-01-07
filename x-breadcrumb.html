@@ -15,32 +15,27 @@
                 margin: 0;
                 padding: 0;
                 margin: 0 auto;
-                /*height: 50px;*/
             }
 
-            :host .breadcrumbs {
+            .breadcrumbs {
                 -webkit-column-count: 5;
                 -moz-column-count: 5;
                 column-count: 5;
                 display: inline-flex;
+                list-style: none;
+                overflow: hidden;
             }
 
-            :host[orientation="vertical"] .breadcrumbs {
+            .breadcrumbs[orientation="vertical"] {
                 -webkit-column-count: 1;
                 -moz-column-count: 1;
                 column-count: 1;
                 display: block;
             }
-
-
-            .breadcrumbs {
-                list-style: none;
-                overflow: hidden;
-            }
         </style>
         <div>
             <div class="wrapper">
-                <ul class="breadcrumbs">
+                <ul class="breadcrumbs" orientation$="[[orientation]]">
                     <content></content>
                 </ul>
             </div>

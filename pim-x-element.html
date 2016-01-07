@@ -2,30 +2,65 @@
 <link rel="import" href="x-breadcrumb.html">
 <link rel="import" href="x-crumb.html">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<style type="text/css">
-    pim-x-element-vertical {
-        top: 55%;
-        position: absolute;
-        left: 2%;
-    }
-
-    .addnewTypeDiv {
-        float: left;
-        margin-left: 2%;
-        position: relative;
-        margin-top: 5%;
-        z-index: 22;
-        background: rgba(0,0,0,0.1);
-        padding: 2%;
-        width: 92%;
-    }
-</style>
 <dom-module id="pim-x-element">
     <!--
     This demo is explained in https://github.com/Juicy/x-breadcrumb/issues/6
     -->
     <template>
         <style type="text/css">
+            .addnewTypeDiv {
+                float: left;
+                margin-left: 2%;
+                position: relative;
+                margin-top: 5%;
+                z-index: 22;
+                background: rgba(0,0,0,0.1);
+                padding: 2%;
+                width: 92%;
+            }
+
+            x-crumb ul {
+                list-style-type: none;
+                padding: 0px;
+                margin: 0px;
+                display: block;
+            }
+
+            x-crumb ul li {
+                color: white;
+                border-bottom: 1px solid white;
+                line-height: 30px;
+                cursor: pointer;
+                padding: 0px 15px;
+            }
+
+            x-crumb ul li:hover {
+                background-color: #A0A0A0;
+            }
+
+            x-crumb ul li.add-new a {
+                display: block;
+                padding: 6px 12px;
+                color: #999;
+                text-decoration: none;
+            }
+
+            x-crumb ul li.add-new a:hover {
+                color: #44c6eb;
+            }
+
+            x-crumb ul li.add-new {
+                border-bottom: 1px solid #ccc;
+            }
+
+            x-crumb ul li.add-new:first-child {
+                padding-top: 6px;
+            }
+
+            x-crumb ul li.add-new:last-child {
+                padding-bottom: 6px;
+                border: 0;
+            }
         </style>
         <template is="dom-if" if="{{addTypeMode}}">
             <div class="addnewTypeDiv">
@@ -64,23 +99,16 @@
             </ul>
           </template>
         </x-breadcrumb> -->
-        <x-breadcrumb orientation='horizontal'>
+        <x-breadcrumb orientation="horizontal">
             <template is="dom-repeat" items="{{path}}" id="tmpl">
-                <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-[[index]]">
+                <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" expanded$="false">
                     <ul>
                         <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
                             <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
                         </template>
-                        <ul>
-                            <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}">Add a new type</li>
-                        </ul>
+                        <li on-click="showAddTypeScreen" class="addli" crumb="{{item}}">Add a new type</li>
                     </ul>
                 </x-crumb>
-            </template>
-            <template is="dom-if" if="{{noItems}}">
-                <ul>
-                    <li on-click="addClicked" crumb="{{item}}">Add a new type</li>
-                </ul>
             </template>
         </x-breadcrumb>
     </template>

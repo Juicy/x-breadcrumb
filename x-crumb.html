@@ -8,7 +8,7 @@
                 max-height: 600px;
             }
 
-            .button {
+            /*.button {
                 border: 1px solid #3d5b92;
                 background: #4d72b5;
                 color: #fff;
@@ -38,7 +38,7 @@
 
             .button:hover {
                 text-decoration: none;
-            }
+            }*/
 
             .btn-large {
                 padding: 1em;
@@ -67,7 +67,7 @@
                 top: 0.4rem;
             }
 
-            .button-dropdown {
+            /*.button-dropdown {
                 position: relative;
                 display: inline-block;
                 padding-bottom: 15px;
@@ -77,15 +77,9 @@
                 -moz-border-radius: 3px 0 0 3px;
                 -webkit-border-radius: 3px;
                 border-radius: 3px 0 0 3px;
-            }
+            }*/
 
-            ::content .dropdown:hover {
-                display: block;
-            }
-
-
-
-            ::content li label {
+            li label {
                 margin-top: 2px;
                 margin-bottom: 2px;
                 color: white;
@@ -93,11 +87,10 @@
                 padding: 10px 30px 10px 45px;
                 position: relative;
                 display: block;
-                /*float: left;*/
                 z-index: 1;
             }
 
-            ::content li label:after {
+            li label:after {
                 content: " ";
                 display: block;
                 width: 90%;
@@ -108,7 +101,7 @@
                 z-index: -1;
             }
 
-            ::content li label:before {
+            li label:before {
                 content: " ";
                 display: block;
                 width: 90%;
@@ -119,13 +112,13 @@
                 z-index: -1;
             }
 
-            ::content li label:hover:after {
+            li label:hover:after {
                 background: linear-gradient(to bottom, black, green);
                 -webkit-transform: skewX(35deg);
                 transform: skewX(35deg);
             }
 
-            ::content li label:hover:before {
+            li label:hover:before {
                 background: linear-gradient(to bottom, green, lightgreen);
                 -webkit-transform: skewX(-35deg);
                 transform: skewX(-35deg);
@@ -180,74 +173,23 @@
                 transform: skewX(35deg);
             }
 
-            ::content li label {
+            li label {
                 display: block;
                 margin: 4px;
             }
 
-            ::content ul li {
-                display: block;
-                width: 100%;
-                margin: 4px;
-            }
-
-            ::content ul li label:hover {
-                background: #566f82;
-                background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#566f82), to(#3e505e));
-                background: -webkit-linear-gradient(top, #566f82, #3e505e);
-                background: -moz-linear-gradient(top, #566f82, #3e505e);
-                background: -ms-linear-gradient(top, #566f82, #3e505e);
-                background: -o-linear-gradient(top, #566f82, #3e505e);
-            }
-
-            :host[expanded] .options {
-                height: auto;
-                display: block;
-                min-height: 40px;
-                max-height: 400px;
-            }
-
-            ::content ul ul {
-                color: white;
-                margin: 0;
-                padding: 0;
-            }
-
-            ::content ul ul li a {
-                display: block;
-                padding: 6px 12px;
-                color: #999;
-                text-decoration: none;
-            }
-
-            ::content ul ul li a:hover {
-                color: #44c6eb;
-            }
-
-            ::content ul ul li {
-                border-bottom: 1px solid #ccc;
-            }
-
-            ::content ul ul li:first-child {
-                padding-top: 6px;
-            }
-
-            ::content ul ul li:last-child {
-                padding-bottom: 6px;
-                border: 0;
-            }
-
-            ::content .options {
+            .options {
                 height: 0;
-                background: rgba(128, 128, 128,0.5);
-                position: relative;
+                background: rgba(128, 128, 128, 0.9);
+                position: absolute;
                 display: none;
                 width: 90%;
                 height: 250px;
-                padding: 20px;
                 transition: top 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
                 overflow: hidden;
                 box-sizing: border-box;
+                padding: 5px;
+                z-index: 10;
             }
 
             .search {
@@ -255,40 +197,19 @@
                 text-align: center;
                 padding: 5px;
                 font-size: smaller;
+                box-sizing: border-box;
             }
 
-            .add {
-                background: rgb(68, 198, 235);
-                border-top: 1px solid rgb(135, 142, 152);
-                border-bottom: 1px solid rgb(39, 153, 219);
-                background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgb(68, 198, 235)), to(rgb(39, 153, 219)));
-                background: -webkit-linear-gradient(top, rgb(68, 198, 235), rgb(39, 153, 219));
-                background: -moz-linear-gradient(top, #44c6eb, #2799db);
-                background: -ms-linear-gradient(top, #44c6eb, #2799db);
-                background: -o-linear-gradient(top, #44c6eb, #2799db);
-                padding: 12px;
-                width: 100%;
-                position: relative;
-            }
-
-            ::content li {
-                display: inline-block;
-                width: 300px;
-            }
-
-            ::content li ul {
+            .options[expanded] {
+                height: auto;
                 display: block;
-                width: 100%;
-            }
-
-            ::content li ul li {
-                display: block;
-                width: 100%;
+                min-height: 40px;
+                max-height: 400px;
             }
         </style>
-        <li class="block">
+        <li class="block" on-mouseover="onItemHover" on-mouseout="onItemBlur">
             <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown"><span>[[value]]</span> &nbsp; &#x2228;</label>
-            <div class="options">
+            <div class="options" expanded$="[[expanded]]">
                 <input type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
                 <content></content>
             </div>
@@ -340,21 +261,26 @@
                     }
                 },
                 attached: function () {
-                    var that = this;
+                    this.set("expanded", false);
                     document.body.addEventListener("click", function (e) {
-                        var parent = e.target;
-                        while (parent) {
-                            if (parent == that) {
+                        setTimeout(function () {
+                            if (this.hovered) {
                                 return;
                             }
-                            parent = parent.parentNode;
-                        }
 
-                        that.expanded = false;
-                    });
+                            this.set("expanded", false);
+                        }.bind(this), 100);
+                    }.bind(this));
                 },
-                expandDropdown: function () {
-                    this.expanded = true;
+                expandDropdown: function (e) {
+                    this.set("expanded", true);
+                    e.preventDefault();
+                },
+                onItemHover: function () {
+                    this.hovered = true;
+                },
+                onItemBlur: function () {
+                    this.hovered = false;
                 },
                 value: function () { }
             });

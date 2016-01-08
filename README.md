@@ -52,8 +52,8 @@ Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/polymer_1.0.z
         <li onclick="console.log('Eatables selected')"><a href="#" data-id="item">Eatables</a></li>
         <li onclick="console.log('grocery selected')"><a href="#" data-id="item">grocery</a></li>
       </x-crumb>
-      <x-crumb value="Add" dropdown="true" listid="addLevelOptions" add="true">
-        
+      <x-crumb value="Add" dropdown="true" listid="addLevelOptions">
+
       </x-crumb>
     </x-breadcrumb>
     ```

@@ -19,7 +19,7 @@
                 background: rgba(128, 128, 128,0);
             }
 
-            label:after {
+            label::after {
                 content: " ";
                 display: block;
                 width: 90%;
@@ -33,7 +33,7 @@
                 transform: skewX(35deg);
             }
 
-            label:before {
+            label::before {
                 content: " ";
                 display: block;
                 width: 90%;
@@ -51,11 +51,11 @@
                 background: rgba(53,122,232,0);
             }
 
-            label[active]:before {
+            label[active]::before {
                 background: rgba(31, 109, 255,0.4);
             }
 
-            label[active]:after {
+            label[active]::after {
                 background: rgba(31, 109, 255,0.4);
             }
 
@@ -63,11 +63,11 @@
                 background: rgba(128,128,128,0);
             }
 
-            label[ghost]:before {
+            label[ghost]::before {
                 background: rgba(128,128,128,0.5);
             }
 
-            label[ghost]:after {
+            label[ghost]::after {
                 background: rgba(128,128,128,0.5);
             }
 

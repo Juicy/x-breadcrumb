@@ -8,18 +8,18 @@
                 max-height: 600px;
             }
 
-            li label {
-                margin-top: 2px;
-                margin-bottom: 2px;
+            label {
+                margin: 4px;
                 color: white;
                 text-decoration: none;
                 padding: 10px 30px 10px 45px;
                 position: relative;
                 display: block;
                 z-index: 1;
+                background: rgba(128, 128, 128,0);
             }
 
-            li label:after {
+            label:after {
                 content: " ";
                 display: block;
                 width: 90%;
@@ -28,9 +28,12 @@
                 top: 0px;
                 left: 0px;
                 z-index: -1;
+                background: rgba(128, 128, 128,1);
+                -webkit-transform: skewX(35deg);
+                transform: skewX(35deg);
             }
 
-            li label:before {
+            label:before {
                 content: " ";
                 display: block;
                 width: 90%;
@@ -39,15 +42,18 @@
                 bottom: 0px;
                 left: 0px;
                 z-index: -1;
+                background: rgba(128, 128, 128,1);
+                -webkit-transform: skewX(-35deg);
+                transform: skewX(-35deg);
             }
 
-            li label:hover:after {
+            label:hover:after {
                 background: linear-gradient(to bottom, black, green);
                 -webkit-transform: skewX(35deg);
                 transform: skewX(35deg);
             }
 
-            li label:hover:before {
+            label:hover:before {
                 background: linear-gradient(to bottom, green, lightgreen);
                 -webkit-transform: skewX(-35deg);
                 transform: skewX(-35deg);
@@ -85,27 +91,6 @@
                 transform: skewX(35deg);
             }
 
-            label {
-                background: rgba(128, 128, 128,0);
-            }
-
-            label:before {
-                background: rgba(128, 128, 128,1);
-                -webkit-transform: skewX(-35deg);
-                transform: skewX(-35deg);
-            }
-
-            label:after {
-                background: rgba(128, 128, 128,1);
-                -webkit-transform: skewX(35deg);
-                transform: skewX(35deg);
-            }
-
-            li label {
-                display: block;
-                margin: 4px;
-            }
-
             .options {
                 height: 0;
                 background: rgba(128, 128, 128, 0.9);
@@ -135,13 +120,11 @@
                 max-height: 400px;
             }
         </style>
-        <li class="block">
-            <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown" on-mouseover="onItemHover" on-mouseout="onItemBlur"><span>[[value]]</span> &nbsp; &#x2228;</label>
-            <div class="options" expanded$="[[expanded]]">
-                <input on-click="preventCollapse" type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
-                <content></content>
-            </div>
-        </li>
+        <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown" on-mouseover="onItemHover" on-mouseout="onItemBlur"><span>[[value]]</span> &nbsp; &#x2228;</label>
+        <div class="options" expanded$="[[expanded]]">
+            <input on-click="preventCollapse" type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
+            <content></content>
+        </div>
     </template>
     <script>
         (function () {

@@ -3,27 +3,19 @@
 <dom-module id="x-breadcrumb">
     <template>
         <style>
-            :host {
-                display: block;
-                position: absolute;
-                margin-left: 2%;
-                z-index: 111;
-            }
-
             .breadcrumbs {
                 -webkit-column-count: 5;
                 -moz-column-count: 5;
                 column-count: 5;
-                display: inline-flex;
-                list-style: none;
-                overflow: hidden;
+                display: flex;
             }
 
             .breadcrumbs[orientation="vertical"] {
                 -webkit-column-count: 1;
                 -moz-column-count: 1;
                 column-count: 1;
-                display: block;
+                display: flex;
+                flex-direction: column;
             }
         </style>
         <div>

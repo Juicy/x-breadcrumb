@@ -9,14 +9,9 @@
     <template>
         <style type="text/css">
             .addnewTypeDiv {
-                float: left;
-                margin-left: 2%;
-                position: relative;
-                margin-top: 5%;
-                z-index: 22;
                 background: rgba(0,0,0,0.1);
                 padding: 2%;
-                width: 92%;
+                margin-top: 20px;
             }
 
             x-crumb ul {
@@ -31,7 +26,6 @@
                 border-bottom: 1px solid white;
                 line-height: 30px;
                 cursor: pointer;
-                padding: 0px 15px;
             }
 
             x-crumb ul li:hover {
@@ -61,7 +55,26 @@
                 padding-bottom: 6px;
                 border: 0;
             }
+
+            x-breadcrumb {
+                display: block;
+                margin-bottom: 10px;
+            }
         </style>
+
+        <x-breadcrumb orientation="horizontal">
+            <template is="dom-repeat" items="{{path}}" id="tmpl">
+                <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" expanded$="false">
+                    <ul>
+                        <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
+                            <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
+                        </template>
+                        <li on-click="showAddTypeScreen" class="addli" crumb="{{item}}">Add a new type</li>
+                    </ul>
+                </x-crumb>
+            </template>
+        </x-breadcrumb>
+
         <template is="dom-if" if="{{addTypeMode}}">
             <div class="addnewTypeDiv">
                 <span><strong>You are adding '<span>{{parentCrumb.Product.Parent.Name}}</span>'</strong></span><br><br>
@@ -99,18 +112,6 @@
             </ul>
           </template>
         </x-breadcrumb> -->
-        <x-breadcrumb orientation="horizontal">
-            <template is="dom-repeat" items="{{path}}" id="tmpl">
-                <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" expanded$="false">
-                    <ul>
-                        <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
-                            <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
-                        </template>
-                        <li on-click="showAddTypeScreen" class="addli" crumb="{{item}}">Add a new type</li>
-                    </ul>
-                </x-crumb>
-            </template>
-        </x-breadcrumb>
     </template>
     <script>
         (function () {

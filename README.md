@@ -1,12 +1,10 @@
 # x-breadcrumb
-Custom Element for category breadcrumbs in Product Information Manager
 
-# &lt;x-breadcrumb&gt;
+Polymer Custom Element for category breadcrumbs in Product Information Manager
 
-> Polymer Custom Element for category breadcrumbs in Product Information Manager
-## Demo: ...
-```
-Entire page is a content of the &lt;x-breadcrumb&gt;, check the source!
+## Demo
+
+[Check it live!](http://juicy.github.io/x-breadcrumb/usage.html)
 
 ## Install
 

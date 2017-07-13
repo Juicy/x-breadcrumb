@@ -117,7 +117,7 @@
         <label active$="[[active]]" ghost$="[[ghost]]" on-click="expandDropdown" on-mouseover="onItemHover" on-mouseout="onItemBlur"><span class="label-text"><span>[[value]]</span><span class="dropdown-decoration">&#x25BE;</span></span></label>
         <div class="options" expanded$="[[expanded]]">
             <input on-click="preventCollapse" type="text" value="{{searchQuery::input}}" class="search" placeholder="Search">
-            <content></content>
+            <slot></slot>
         </div>
     </template>
     <script>

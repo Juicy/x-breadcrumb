@@ -24,7 +24,7 @@
     "preview.png"
   ],
   "dependencies": {
-    "polymer": "polymer/polymer#~1.9"
+    "polymer": "polymer/polymer#1.9 - 2"
   },
   "resolutions": {
     "polymer": "~1.9",

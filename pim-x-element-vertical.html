@@ -203,7 +203,19 @@
                     }
                 },
 
-                ready: function () {
+                attached: function () {
+                    if (!Polymer.Element) {
+                        // Polymer version 1
+                        this.addData();
+                    } else {
+                        // Polymer version 2
+                        Polymer.RenderStatus.beforeNextRender(this, function() {
+                            this.addData();
+                        });
+                    }
+                },
+                
+                addData: function() {
                     if (this.db && this.db.length == 0)
                         this.noItems = true;
                     else {
@@ -214,7 +226,7 @@
                     }
                     console.log(this.parentCrumb.Name);
                 },
-
+                
                 searchFilter: function (siblings, query) {
                     if (this.searchHandler)
                         return window[this.searchHandler](siblings, query); // TODO :: CHECK IF THIS IS HARDCODING

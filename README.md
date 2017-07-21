@@ -14,7 +14,7 @@ Install the component using [Bower](http://bower.io/):
 $ bower install x-breadcrumb --save
 ```
 
-Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/polymer_1.0.zip).
+Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/master.zip).
 
 ## Usage
 
@@ -75,7 +75,7 @@ Attribute       | Options             | Default           | Description
 `active`        | *boolean*           | `false`            | displayed as a active crumb , else normal crumb
 
 
-### Notes
+## Notes
 - `x-breadcrumb` is a [hybrid element](https://www.polymer-project.org/2.0/docs/devguide/hybrid-elements).
 
 ## [Contributing and Development](CONTRIBUTING.md)

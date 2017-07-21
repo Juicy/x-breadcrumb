@@ -60,21 +60,27 @@
                 display: block;
                 margin-bottom: 10px;
             }
+            
+            x-breadcrumb > dom-repeat {
+                display: inherit;
+            }
         </style>
 
         <x-breadcrumb orientation="horizontal">
-            <template is="dom-repeat" items="{{path}}" id="tmpl">
-                <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" expanded$="false">
-                    <ul>
-                        <dom-repeat>
-                            <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
-                                <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
-                            </template>
-                        </dom-repeat>
-                        <li on-click="showAddTypeScreen" class="addli" crumb="{{item}}">Add a new type</li>
-                    </ul>
-              </x-crumb>
-            </template>
+            <dom-repeat>
+                <template is="dom-repeat" items="{{path}}" id="tmpl">
+                    <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" expanded$="false">
+                        <ul>
+                            <dom-repeat>
+                                <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
+                                    <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
+                                </template>
+                            </dom-repeat>
+                            <li on-click="showAddTypeScreen" class="addli" crumb="{{item}}">Add a new type</li>
+                        </ul>
+                  </x-crumb>
+                </template>
+            </dom-repeat>
         </x-breadcrumb>
         <dom-if>
             <template is="dom-if" if="{{addTypeMode}}">

@@ -141,7 +141,8 @@
                         value: {
                             Name: "Products",
                             Children: []
-                        }
+                        },
+                        observer: "_dbChanged"
                     },
                     noItems: {
                         type: Boolean,
@@ -205,17 +206,9 @@
                         }
                     }
                 },
-                
-                attached: function () {
-                    if (!Polymer.Element) {
-                        // Polymer version 1
-                        this.addData();
-                    } else {
-                        // Polymer version 2
-                        Polymer.RenderStatus.beforeNextRender(this, function() {
-                            this.addData();
-                        });
-                    }
+
+                _dbChanged: function () {
+                    this.addData();
                 },
                 
                 addData: function() {
@@ -227,7 +220,6 @@
                         var product = this.findProductByName(this.db, this.parentCrumb);
                         this.rebuildBreadcrumb(product);
                     }
-                    console.log(this.parentCrumb.Name);
                 },
 
                 searchFilter: function (siblings, query) {

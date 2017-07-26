@@ -14,7 +14,7 @@ Install the component using [Bower](http://bower.io/):
 $ bower install x-breadcrumb --save
 ```
 
-Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/polymer_1.0.zip).
+Or [download as ZIP](https://github.com/Juicy/x-breadcrumb/archive/master.zip).
 
 ## Usage
 
@@ -75,13 +75,10 @@ Attribute       | Options             | Default           | Description
 `active`        | *boolean*           | `false`            | displayed as a active crumb , else normal crumb
 
 
-## Contributing
+## Notes
+- `x-breadcrumb` is a [hybrid element](https://www.polymer-project.org/2.0/docs/devguide/hybrid-elements).
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -m 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
+## [Contributing and Development](CONTRIBUTING.md)
 
 ## History
 

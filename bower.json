@@ -24,10 +24,6 @@
     "preview.png"
   ],
   "dependencies": {
-    "polymer": "polymer/polymer#^1.1.0"
-  },
-  "resolutions": {
-    "polymer": "^1.1.0",
-    "webcomponentsjs": "^0.7.18"
+    "polymer": "polymer/polymer#1.9 - 2"
   }
 }

@@ -15,15 +15,17 @@
 </head>
 <body>
     <!-- initial state screen -->
-    <template id="pixEl" is="dom-bind">
-        <pim-x-element id="pimEl" db="{{db}}" search-handler="{{searchHandler}}"
-                       sibling-click-handler="{{siblingClickHandler}}" on-after-type-add="{{afterAddHandler}}">
-        </pim-x-element>
-        <br><br>
-        <pim-x-element-vertical id="pimEl" db="{{db}}" search-handler="{{searchHandler}}"
-                                sibling-click-handler="{{siblingClickHandler}}" on-after-type-add="{{afterAddHandler}}">
-        </pim-x-element-vertical>
-    </template>
+    <dom-bind>
+        <template id="pixEl" is="dom-bind">
+            <pim-x-element id="pimEl" db="{{db}}" search-handler="{{searchHandler}}"
+                           sibling-click-handler="{{siblingClickHandler}}" on-after-type-add="{{afterAddHandler}}">
+            </pim-x-element>
+            <br><br>
+            <pim-x-element-vertical id="pimEl" db="{{db}}" search-handler="{{searchHandler}}"
+                                    sibling-click-handler="{{siblingClickHandler}}" on-after-type-add="{{afterAddHandler}}">
+            </pim-x-element-vertical>
+        </template>
+    </dom-bind>
     <script>
         var startingDb = {
             Name: "Products",
@@ -104,12 +106,17 @@
 
         document.addEventListener('DOMContentLoaded', function (e) {
             // associate data for the breadcrumbs
-            document.querySelector('#pixEl').db = startingDb;
+            var template = document.querySelector('dom-bind');
+            if (!Polymer.Element) {
+                // Polymer v 1.0
+                template  = document.querySelector('#pixEl');
+            }
+            template.db = startingDb;
 
             // associate searchCritirea behaviour
-            document.querySelector('#pixEl').searchHandler = "onSearch";
-            document.querySelector('#pixEl').siblingClickHandler = "onSiblingClick";
-            document.querySelector('#pixEl').afterAddHandler = "afterAddHandler";
+            template.searchHandler = "onSearch";
+            template.siblingClickHandler = "onSiblingClick";
+            template.afterAddHandler = "afterAddHandler";
 
         });
     </script>

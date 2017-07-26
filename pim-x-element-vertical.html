@@ -71,48 +71,55 @@
         </style>
 
         <x-breadcrumb orientation='vertical'>
-            <template is="dom-repeat" items="{{path}}" id="tmpl">
-                <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-v-[[index]]">
-                    <ul>
-                        <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
-                            <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
-                        </template>
-                        <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}" class="add-new">Add a new type</li>
-                    </ul>
-                </x-crumb>
-            </template>
+            <dom-repeat>
+                <template is="dom-repeat" items="{{path}}" id="tmpl">
+                    <x-crumb value="{{item.Label}}" search-query="{{item.SearchQuery}}" item="{{item}}" dropdown="true" active$="{{item.IsActive}}" ghost$="{{item.IsGhost}}" listid="tmpl-v-[[index]]">
+                        <ul>
+                            <dom-repeat>
+                                <template is="dom-repeat" items="{{searchFilter(item.Siblings, item.SearchQuery)}}">
+                                    <li on-click="siblingClicked" sibling="{{item}}">{{item.Name}}</li>
+                                </template>
+                            </dom-repeat>
+                            <li on-click="showAddTypeScreen" class$="addli" crumb="{{item}}" class="add-new">Add a new type</li>
+                        </ul>
+                    </x-crumb>
+                </template>
+            </dom-repeat>
         </x-breadcrumb>
-        
-        <template is="dom-if" if="{{addTypeMode}}">
-            <div class="addnewTypeDivVertical">
-                <span>
-                    <strong>You are adding '<span>{{parentCrumb.Product.Parent.Name}}</span>'</strong>
-                </span>
-                <br>
-                <br>
-                <span>
-                    <input type="text" value="{{addedTypeVal::input}}">
-                </span>
-                <br>
-                <br>
-                <span><button on-click="addClicked">Add</button></span>
-            </div>
-        </template>
-        <template is="dom-if" if="{{!addTypeMode}}">
-            <div class="addnewTypeDivVertical">
-                <span>
-                    <strong>You are editing '<span>{{parentCrumb.Name}}</span>'</strong>
-                </span>
-                <br>
-                <br>
-                <span>
-                    <input type="text" value="{{editedTypeVal::input}}">
-                </span>
-                <br>
-                <br>
-                <span><button on-click="editClicked">Edit</button></span>
-            </div>
-        </template>
+        <dom-if>
+            <template is="dom-if" if="{{addTypeMode}}">
+                <div class="addnewTypeDivVertical">
+                    <span>
+                        <strong>You are adding '<span>{{parentCrumb.Product.Parent.Name}}</span>'</strong>
+                    </span>
+                    <br>
+                    <br>
+                    <span>
+                        <input type="text" value="{{addedTypeVal::input}}">
+                    </span>
+                    <br>
+                    <br>
+                    <span><button on-click="addClicked">Add</button></span>
+                </div>
+            </template>
+        </dom-if>
+        <dom-if>
+            <template is="dom-if" if="{{!addTypeMode}}">
+                <div class="addnewTypeDivVertical">
+                    <span>
+                        <strong>You are editing '<span>{{parentCrumb.Name}}</span>'</strong>
+                    </span>
+                    <br>
+                    <br>
+                    <span>
+                        <input type="text" value="{{editedTypeVal::input}}">
+                    </span>
+                    <br>
+                    <br>
+                    <span><button on-click="editClicked">Edit</button></span>
+                </div>
+            </template>
+        </dom-if>
     </template>
     <script>
         (function () {
@@ -131,7 +138,8 @@
                         value: {
                             Name: "Products",
                             Children: []
-                        }
+                        },
+                        observer: "_dbChanged"
                     },
                     noItems: {
                         type: Boolean,
@@ -196,7 +204,11 @@
                     }
                 },
 
-                ready: function () {
+                _dbChanged: function () {
+                    this.addData();
+                },
+                
+                addData: function() {
                     if (this.db && this.db.length == 0)
                         this.noItems = true;
                     else {
@@ -205,9 +217,8 @@
                         var product = this.findProductByName(this.db, this.parentCrumb);
                         this.rebuildBreadcrumb(product);
                     }
-                    console.log(this.parentCrumb.Name);
                 },
-
+                
                 searchFilter: function (siblings, query) {
                     if (this.searchHandler)
                         return window[this.searchHandler](siblings, query); // TODO :: CHECK IF THIS IS HARDCODING
